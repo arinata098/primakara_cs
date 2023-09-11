@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 // Admin
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\ChecklistController;
 // User
 use App\Http\Controllers\User\UserController;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
@@ -31,6 +32,13 @@ Route::patch('password', [ChangePasswordController::class, 'update'])->name('pas
 
 Route::middleware(['admin'])->group(function () {
     Route::get('/adminDashboard', [AdminController::class, 'index'])->middleware('auth')->name('adminDashboard');
+    // checkList
+    Route::get('/checklist', [ChecklistController::class, 'index'])->middleware('auth')->name('checklist');
+    Route::post('/storeCheckList', [ChecklistController::class, 'store'])->middleware('auth')->name('insert.checklist');
+    Route::get('/editCheckList/{id}', [ChecklistController::class, 'edit'])->middleware('auth')->name('edit.checklist');
+    Route::post('/updateCheckList/{id}', [ChecklistController::class, 'update'])->middleware('auth')->name('update.checklist');
+    Route::delete('/deleteCheckList/{id}', [ChecklistController::class, 'destroy'])->middleware('auth')->name('destroy.checklist');
+
 });
 
 Route::get('/userDashboard', [UserController::class, 'index'])->middleware('auth')->name('userDashboard');

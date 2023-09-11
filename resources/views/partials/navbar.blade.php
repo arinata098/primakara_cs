@@ -17,7 +17,7 @@
     <!--end::Aside mobile toggle-->
     <!--begin::Mobile logo-->
     <div class="d-flex align-items-center flex-grow-1 flex-lg-grow-0">
-      <a href="/dashboard" class="d-lg-none">
+      <a href="#" class="d-lg-none">
         <img alt="Logo" src="assets/media/logos/smallprimakara.png" class="h-30px" />
       </a>
     </div>
@@ -1816,7 +1816,7 @@
               <div class="menu-item px-5">
                 <form action="/logout" method="POST">
                   @csrf
-                
+
                 <button type="submit" class="dropdown-item menu-link px-5">Sign Out</button>
 
                 </form>

@@ -31,8 +31,8 @@
                         <span class="menu-section text-muted text-uppercase fs-8 ls-1">Dashboard</span>
                     </div>
                 </div>
-                <div class="menu-item {{ ($active === "dashboard") ? 'here show' : '' }}">
-                    <a class="menu-link" href="{{ url('dashboard') }}">
+                <div class="menu-item {{ ($active === "Dashboard") ? 'here show' : '' }}">
+                    <a class="menu-link" href="{{ url('adminDashboard') }}">
                         <span class="menu-icon">
                             <!--begin::Svg Icon | path: icons/duotune/general/gen025.svg-->
                             <span class="svg-icon svg-icon-2">
@@ -48,14 +48,14 @@
                         <span class="menu-title">Dashboard</span>
                     </a>
                 </div>
-                
+
                 <div class="menu-item">
                     <div class="menu-content pt-8 pb-2">
-                        <span class="menu-section text-muted text-uppercase fs-8 ls-1">Angket</span>
+                        <span class="menu-section text-muted text-uppercase fs-8 ls-1">Master</span>
                     </div>
                 </div>
-                <div class="menu-item {{ ($active === "dosen") ? 'here show' : '' }}">
-                    <a class="menu-link" href="{{ url('listdosen') }}">
+                <div class="menu-item {{ ($active === "Check List") ? 'here show' : '' }}">
+                    <a class="menu-link" href="{{ url('checklist') }}">
                         <span class="menu-icon">
                             <!--begin::Svg Icon | path: icons/duotune/art/art002.svg-->
                             <span class="svg-icon svg-icon-2">
@@ -66,10 +66,10 @@
                             </span>
                             <!--end::Svg Icon-->
                         </span>
-                        <span class="menu-title">Dosen</span>
+                        <span class="menu-title">Check List</span>
                     </a>
                 </div>
-                
+
                 <div class="menu-item {{ ($active === "matakuliah") ? 'here show' : '' }}">
                     <a class="menu-link" href="{{ url('listmatkul') }}">
                         <span class="menu-icon">
@@ -344,7 +344,7 @@
                         </div>
                     </div>
                 </div> --}}
-                
+
             </div>
             <!--end::Menu-->
         </div>

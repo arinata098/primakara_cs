@@ -3,7 +3,10 @@
 use App\Models\Category;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
-use App\Http\Controllers\DashboardController;
+// Admin
+use App\Http\Controllers\Admin\AdminController;
+// User
+use App\Http\Controllers\User\UserController;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 /*
@@ -27,8 +30,13 @@ Route::get('password', [ChangePasswordController::class, 'edit'])->name('passwor
 Route::patch('password', [ChangePasswordController::class, 'update'])->name('password.edit')->middleware('auth');
 
 Route::middleware(['admin'])->group(function () {
-    Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth')->name('dashboard');
+    Route::get('/adminDashboard', [AdminController::class, 'index'])->middleware('auth')->name('adminDashboard');
 });
+
+Route::get('/userDashboard', [UserController::class, 'index'])->middleware('auth')->name('userDashboard');
+
+
+
 
 
 

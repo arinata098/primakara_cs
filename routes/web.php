@@ -6,6 +6,7 @@ use App\Http\Controllers\LoginController;
 // Admin
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\ChecklistController;
+use App\Http\Controllers\Admin\RuanganController;
 // User
 use App\Http\Controllers\User\UserController;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
@@ -39,9 +40,18 @@ Route::middleware(['admin'])->group(function () {
     Route::post('/updateCheckList/{id}', [ChecklistController::class, 'update'])->middleware('auth')->name('update.checklist');
     Route::delete('/deleteCheckList/{id}', [ChecklistController::class, 'destroy'])->middleware('auth')->name('destroy.checklist');
 
+    // Ruangan
+    Route::get('/ruangan', [RuanganController::class, 'index'])->middleware('auth')->name('ruangan');
+    Route::post('/ruangan', [RuanganController::class, 'store'])->middleware('auth')->name('insert.ruangan');
+    Route::get('/editRuangan/{id}', [RuanganController::class, 'edit'])->middleware('auth')->name('edit.ruangan');
+    Route::post('/updateRuangan/{id}', [RuanganController::class, 'update'])->middleware('auth')->name('update.ruangan');
+    Route::delete('/deleteRuangan/{id}', [RuanganController::class, 'destroy'])->middleware('auth')->name('destroy.ruangan');
+
+
 });
 
 Route::get('/userDashboard', [UserController::class, 'index'])->middleware('auth')->name('userDashboard');
+
 
 
 

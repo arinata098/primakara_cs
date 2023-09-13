@@ -42,6 +42,66 @@
                                         <td></td>
                                         <td>{{ $item->roomInRCL->nama_ruangan }}</td>
                                         <td>
+                                            <a href="#" class="btn btn-sm btn-warning btn-action" title="View" data-toggle="tooltip" data-bs-toggle="modal" data-bs-target="#detailModal{{ $item->uuid }}"><i class="fas fa-eye"></i></a>
+                                                {{-- modal here --}}
+                                                <!--begin::Modal - New Card-->
+                                                <div class="modal fade" id="detailModal{{ $item->uuid }}" tabindex="-1" aria-hidden="true">
+                                                    <!--begin::Modal dialog-->
+                                                    <div class="modal-dialog modal-dialog-centered mw-850px">
+                                                        <!--begin::Modal content-->
+                                                        <div class="modal-content">
+                                                            <!--begin::Modal header-->
+                                                            <div class="modal-header">
+                                                                <!--begin::Modal title-->
+                                                                <h2>Checklist Kebersihan Ruang {{ $item->roomInRCL->nama_ruangan  }}</h2>
+                                                                <!--end::Modal title-->
+                                                                <!--begin::Close-->
+                                                                <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
+                                                                    <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
+                                                                    <span class="svg-icon svg-icon-1">
+                                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                                                            <rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1" transform="rotate(-45 6 17.3137)" fill="black" />
+                                                                            <rect x="7.41422" y="6" width="16" height="2" rx="1" transform="rotate(45 7.41422 6)" fill="black" />
+                                                                        </svg>
+                                                                    </span>
+                                                                    <!--end::Svg Icon-->
+                                                                </div>
+                                                                <!--end::Close-->
+                                                            </div>
+                                                            <!--end::Modal header-->
+                                                            <!--begin::Modal body-->
+                                                            <div class="modal-body scroll-y mx-xl-8">
+                                                                <!--begin::content modal body-->
+                                                                <div class="table-responsive">
+                                                                    <table id="kt_datatable_detail_checklist_clean" class="table table-row-bordered gy-5">
+                                                                        <thead>
+                                                                            <tr class="fw-bold fs-4 text-muted">
+                                                                                <th>No</th>
+                                                                                <th>Checklist Kebersihan</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            @foreach($roomChecklistsDetails as $roomCheckDetail)
+                                                                                @if($item->uuid == $roomCheckDetail->uuid)
+                                                                                <tr>
+                                                                                    <td>{{ $table++ }}</td>
+                                                                                    <td>{{ $roomCheckDetail->checklistInRCL->nama_list }}</td>
+                                                                                </tr>
+                                                                                @endif
+                                                                            @endforeach
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                                <!--end::content modal body-->
+                                                            </div>
+                                                            <!--end::Modal body-->
+                                                        </div>
+                                                        <!--end::Modal content-->
+                                                    </div>
+                                                    <!--end::Modal dialog-->
+                                                </div>
+                                                <!--end::Modal - New Card-->
+                                                {{-- end modal --}}
                                             <a href="{{ route('edit.roomChecklist', $item->uuid ) }}" class="btn btn-sm btn-primary btn-action" data-toggle="tooltip" title="Edit"><i class="fas fa-pencil-alt"></i></a>
                                             <form id="form-delete" action="{{ route('destroy.roomChecklist', $item->uuid ) }}" method="POST"
                                             class="d-inline-block">

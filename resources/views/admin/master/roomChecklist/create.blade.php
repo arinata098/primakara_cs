@@ -61,7 +61,7 @@
                                 <!--end::Input group-->
                                 <!--begin::Actions-->
                                 <div class="text-center pt-15">
-                                    <button type="reset" data-bs-dismiss="modal" class="btn btn-light me-3">Cancle</button>
+                                    <a href="{{ url()->previous() }}" class="btn btn-light me-3">Cancle</a>
                                     <button type="submit" class="btn btn-primary">
                                         <span class="indicator-label">Submit</span>
                                     </button>

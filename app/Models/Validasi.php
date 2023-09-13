@@ -13,7 +13,7 @@ class Validasi extends Model
     protected $primaryKey = 'id';
 
     protected $fillable = [
-        // 'id_atribut_checklist',
+        'id_atribut_checklist',
         'tgl_check',
         'id_cs',
         'keterangan',

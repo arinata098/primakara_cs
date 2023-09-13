@@ -12,6 +12,8 @@ use App\Models\Ruangan;
 use App\Models\RoomChecklist;
 use App\Models\AtributChecklist;
 use App\Models\Validasi;
+use Ramsey\Uuid\Uuid;
+
 
 
 class UserController extends Controller
@@ -40,8 +42,6 @@ class UserController extends Controller
         ->get();
 
         $availableRoomId = $rooms->pluck('id_ruangan'); // Ambil semua id_ruangan dari $rooms
-
-        dd(AtributChecklist::with('validations')->get());
 
         // ambil data checklist untuk ditampilkan di modal
         $roomChecklists = RoomChecklist::with('roomInRCL', 'checklistInRCL')
@@ -93,6 +93,7 @@ class UserController extends Controller
             'status' => 'required|array',
             'keterangan' => 'required|string',
             'id_cs' => 'required',
+            'id_ruangan' => 'required',
         ]);
 
         // Cek apakah validasi gagal
@@ -105,7 +106,52 @@ class UserController extends Controller
             return redirect()->back()->withErrors($errors)->withInput();
         }
 
-        dd($validator);
+        try {
+            DB::beginTransaction();
+
+            $uuid = Uuid::uuid4()->toString(); // Membuat UUID versi 4 (random)
+            // Data yang akan dimasukkan ke tabel validasi_data
+            $validasiData = [
+                'id_atribut_checklist' => $uuid,
+                'tgl_check' => $request->tgl_check,
+                'id_cs' => $request->id_cs,
+                'keterangan' => $request->tgl_check,
+                'validasi' => 0,
+                // Tambahkan kolom lain sesuai kebutuhan Anda
+            ];
+
+            // Masukkan data ke tabel validasi_data dan ambil ID yang baru dibuat
+            $validasiDataModel = Validasi::create($validasiData);
+
+            // Data yang akan dimasukkan ke tabel data_atribut_checklist
+            $dataAtributChecklist = [];
+
+            $idListArray = $request->id_list;
+            $statusArray = $request->status;
+
+
+            // Loop untuk menyiapkan data untuk tabel data_atribut_checklist
+            for ($i = 0; $i < count($idListArray); $i++) {
+                $dataAtributChecklist[] = [
+                    'id_atribut' => $uuid,
+                    'id_list' => $idListArray[$i],
+                    'id_ruangan' => $request->id_ruangan,
+                    'status' => $statusArray[$i],
+                ];
+            }
+
+            // Masukkan data ke tabel data_atribut_checklist dengan menggunakan createMany
+            $validasiDataModel->atributDetails()->createMany($dataAtributChecklist);
+
+            DB::commit();
+
+            return redirect()->back()->with('insertSuccess', 'Data berhasil disimpan.');
+        } catch (Exception $e) {
+            DB::rollBack();
+            dd($e->getMessage());
+            return redirect()->back()->with('insertFail', $e->getMessage());
+        }
+
     }
 
 

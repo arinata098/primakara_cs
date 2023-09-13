@@ -17,43 +17,32 @@
                                         <div class="card-px pt-10 d-flex justify-content-between">
                                             <!--begin::Title-->
                                                 <div class="d-inline mt-2">
-                                                    <h2 class="fs-2x fw-bolder mb-0">Master {{ $title }}</h2>
+                                                    <h2 class="fs-2x fw-bolder mb-0">{{ $title }}</h2>
                                                 </div>
                                                 <div class="d-inline">
-                                                    <a href="#" class="btn btn-sm btn-primary fs-6" data-bs-toggle="modal" data-bs-target="#kt_modal_new_ruangan">Tambah</a>
+													<button class="btn btn-secondary" onclick="history.back()">Back</button>
+                                                    <a href="#" class="btn btn-sm btn-success fs-6" data-bs-toggle="modal" data-bs-target="#kt_modal_new_ruangan">Validasi</a>
                                                 </div>
                                             <!--end::Title-->
                                         </div>
                                         <!--end::Heading-->
                                         <!--begin::Table-->
-                                        @if ($ruangans )
+                                        @if ($listDetail )
                                         <div class="table-responsive my-10 mx-8">
                                             <table class="table table-striped gy-7 gs-7">
                                                 <thead>
                                                     <tr class="fw-bold fs-6 text-gray-800 border-bottom-2 border-gray-200">
                                                         <th class="min-w-100px">Id</th>
-                                                        <th class="min-w-300px">Nama Ruangan</th>
-                                                        <th class="min-w-300px">Lokasi Lantai</th>
-                                                        <th class="min-w-200px">Action</th>
+														<th class="min-w-300px">List</th>
+                                                        <th class="min-w-100px">Dichecklist/tidak</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    @foreach ($ruangans as $item)
+                                                    @foreach ($listDetail as $item)
                                                     <tr>
-                                                        <td>{{ $item->id_ruangan }}</td>
-                                                        <td>{{ $item->nama_ruangan }}</td>
-                                                        <td>Lantai {{ $item->lantai }}</td>
-                                                        <td>
-                                                            <a href="{{ route('edit.ruangan', $item->id_ruangan ) }}" class="btn btn-sm btn-primary btn-action" data-toggle="tooltip" title="Edit"><i class="fas fa-pencil-alt"></i></a>
-                                                            <form id="form-delete" action="{{ route('destroy.ruangan', $item->id_ruangan ) }}" method="POST"
-                                                            class="d-inline-block">
-                                                            @csrf
-                                                            @method('DELETE')
-                                                            <button id="submit-btn" type="submit" data-toggle="tooltip" data-original-title="Hapus bagian"
-                                                                class="btn btn-sm btn-danger btn-action" onclick="confirmDelete(event)"
-                                                                ><i class="fas fa-trash"></i></i></button>
-                                                            </form>
-                                                        </td>
+														<td>{{ $item->id }}</td>
+                                                        <td>{{ $item->list->nama_list }}</td>
+														<td>{{ $item->status }}</td>
                                                     </tr>
                                                     @endforeach
                                                 </tbody>

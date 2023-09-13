@@ -28,5 +28,10 @@ class AtributChecklist extends Model
     {
         return $this->hasOne(Validasi::class, 'id_atribut_checklist', 'id_atribut');
     }
+
+    public function list()
+    {
+        return $this->belongsTo(CheckList::class, 'id_list', 'id_list');
+    }
 }
 

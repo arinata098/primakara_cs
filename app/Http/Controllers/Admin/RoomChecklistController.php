@@ -16,13 +16,16 @@ class RoomChecklistController extends Controller
 {
     public function index()
     {
-        $roomChecklists = RoomChecklist::with('roomInRCL', 'checklistInRCL')->select('*')->groupBy('id_ruangan')->get();
+        $roomChecklists = RoomChecklist::with('roomInRCL')->select('*')->groupBy('id_ruangan')->get();
+        $roomChecklistsDetails = RoomChecklist::with('roomInRCL', 'checklistInRCL')->select('*')->get();
 
             return view('admin.master.roomChecklist.index', [
                 'title' => 'Checklist Ruangan',
                 'secction' => 'Master',
                 'active' => 'Checklist Ruangan',
+                'table' => 1,
                 'roomChecklists' => $roomChecklists,
+                'roomChecklistsDetails' => $roomChecklistsDetails,
             ]);
     }
 

@@ -29,5 +29,10 @@ class Validasi extends Model
     {
         return $this->hasMany(AtributChecklist::class, 'id_atribut', 'id_atribut_checklist');
     }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'id_cs', 'id');
+    }
 }
 

@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\ChecklistController;
 use App\Http\Controllers\Admin\RuanganController;
 use App\Http\Controllers\Admin\RoomChecklistController;
 use App\Http\Controllers\Admin\AkunController;
+use App\Http\Controllers\Admin\SummaryController;
 // User
 use App\Http\Controllers\User\UserController;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
@@ -65,6 +66,12 @@ Route::middleware(['admin'])->group(function () {
     Route::delete('/deleteAkun/{id}', [AkunController::class, 'destroy'])->middleware('auth')->name('destroy.akun');
     Route::get('/resetAkun/{id}', [AkunController::class, 'reset'])->middleware('auth')->name('reset.akun');
     Route::post('/resetupdateAkun/{id}', [AkunController::class, 'resetupdate'])->middleware('auth')->name('resetupdate.akun');
+
+    // Summary
+    Route::get('/lantai', [SummaryController::class, 'index'])->middleware('auth')->name('lantai');
+    Route::get('/lantaiRuangan/{id}', [SummaryController::class, 'rooms'])->middleware('auth')->name('lantaiRuangan');
+    Route::get('/detailRuangan/{id}', [SummaryController::class, 'detail_ruangan'])->middleware('auth')->name('detailRuangan');
+    Route::get('/listDetail/{id}', [SummaryController::class, 'list_detail'])->middleware('auth')->name('listDetail');
 
 
 });

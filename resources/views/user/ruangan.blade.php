@@ -123,6 +123,7 @@
 
                                                             {{-- hidden input --}}
                                                             <input type="hidden" name="id_cs" value="{{ auth()->user()->id }}">
+                                                            <input type="hidden" name="id_ruangan" value="{{ $room->id_ruangan}}">
 
                                                             <!--begin::Actions-->
                                                             <div class="text-center pt-15">

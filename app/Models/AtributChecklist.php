@@ -23,5 +23,10 @@ class AtributChecklist extends Model
 
     const CREATED_AT = 'created_at';
     const UPDATED_AT = 'updated_at';
+
+    public function validations()
+    {
+        return $this->hasOne(Validasi::class, 'id_atribut_checklist', 'id_atribut');
+    }
 }
 

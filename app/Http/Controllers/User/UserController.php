@@ -10,6 +10,8 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Ruangan;
 use App\Models\RoomChecklist;
+use App\Models\AtributChecklist;
+use App\Models\Validasi;
 
 
 class UserController extends Controller
@@ -38,6 +40,8 @@ class UserController extends Controller
         ->get();
 
         $availableRoomId = $rooms->pluck('id_ruangan'); // Ambil semua id_ruangan dari $rooms
+
+        dd(AtributChecklist::with('validations')->get());
 
         // ambil data checklist untuk ditampilkan di modal
         $roomChecklists = RoomChecklist::with('roomInRCL', 'checklistInRCL')

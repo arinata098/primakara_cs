@@ -13,7 +13,7 @@ class Validasi extends Model
     protected $primaryKey = 'id';
 
     protected $fillable = [
-        'id_atribut_checklist',
+        // 'id_atribut_checklist',
         'tgl_check',
         'id_cs',
         'keterangan',
@@ -24,5 +24,10 @@ class Validasi extends Model
 
     const CREATED_AT = 'created_at';
     const UPDATED_AT = 'updated_at';
+
+    public function atributDetails()
+    {
+        return $this->hasMany(AtributChecklist::class, 'id_atribut', 'id_atribut_checklist');
+    }
 }
 

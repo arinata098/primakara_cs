@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers\User;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Ruangan;
 use App\Models\RoomChecklist;
@@ -22,14 +26,23 @@ class UserController extends Controller
 
     public function ruangan($lantai)
     {
-        $roomList = Ruangan::where('lantai', $lantai)->get();
+        $room = Ruangan::where('lantai', $lantai)->get();
 
-        $idRuangan = $roomList->pluck('id_ruangan'); // Ambil semua id_ruangan dari $rooms
+        $idRuangan = $room->pluck('id_ruangan'); // Ambil semua id_ruangan dari $room
 
-        $rooms = RoomChecklist::with('roomInRCL', 'checklistInRCL')
+        // ambil data untuk looping card
+        $rooms = RoomChecklist::with('roomInRCL')
         ->whereIn('id_ruangan', $idRuangan)
         ->select('*')
         ->groupBy('id_ruangan')
+        ->get();
+
+        $availableRoomId = $rooms->pluck('id_ruangan'); // Ambil semua id_ruangan dari $rooms
+
+        // ambil data checklist untuk ditampilkan di modal
+        $roomChecklists = RoomChecklist::with('roomInRCL', 'checklistInRCL')
+        ->whereIn('id_ruangan', $availableRoomId)
+        ->select('*')
         ->get();
 
         if (count($rooms) === 0) {
@@ -39,7 +52,9 @@ class UserController extends Controller
             return view('user.ruangan', [
                 'title' => 'Pilih Lantai',
                 'secction' => 'Dashboard',
+                'table' => 1,
                 'rooms' => $rooms,
+                'roomChecklists' => $roomChecklists,
                 'active' => 'Dashboard'
             ]);
     }
@@ -63,6 +78,30 @@ class UserController extends Controller
                 'formRooms' => $formRooms,
                 'active' => 'Dashboard'
             ]);
+    }
+
+    public function storeForm(Request $request) {
+
+        // Validasi data
+        $validator = Validator::make($request->all(), [
+            'tgl_check' => 'required|date',
+            'id_list' => 'required|array',
+            'status' => 'required|array',
+            'keterangan' => 'required|string',
+            'id_cs' => 'required',
+        ]);
+
+        // Cek apakah validasi gagal
+        if ($validator->fails()) {
+            // Mengakses pesan error validasi
+            $errors = $validator->errors();
+            // Lakukan sesuatu dengan $errors, seperti menampilkannya atau mengirimkannya ke tampilan
+
+            // Kembali ke halaman sebelumnya
+            return redirect()->back()->withErrors($errors)->withInput();
+        }
+
+        dd($validator);
     }
 
 

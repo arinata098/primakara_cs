@@ -72,6 +72,7 @@ Route::middleware(['admin'])->group(function () {
 Route::get('/userDashboard', [UserController::class, 'index'])->middleware('auth')->name('userDashboard');
 Route::get('/lantaiRooms/{id}', [UserController::class, 'ruangan'])->middleware('auth')->name('lantaiRooms');
 Route::get('/formRuangan/{id}', [UserController::class, 'formRuangan'])->middleware('auth')->name('formRuangan');
+Route::post('/storeForm', [UserController::class, 'storeForm'])->middleware('auth')->name('storeForm');
 
 
 

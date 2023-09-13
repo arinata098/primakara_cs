@@ -22,5 +22,10 @@ class Ruangan extends Model
 
     const CREATED_AT = 'created_at';
     const UPDATED_AT = 'updated_at';
+
+    public function checklistOnRoom()
+    {
+        return $this->hasMany(RoomChecklist::class, 'id_ruangan', 'id_ruangan');
+    }
 }
 

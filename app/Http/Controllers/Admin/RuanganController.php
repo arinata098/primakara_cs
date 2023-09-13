@@ -106,11 +106,11 @@ class RuanganController extends Controller
     public function destroy($id)
     {
         // Cari data pengguna berdasarkan ID
-        $position = Ruangan::find($id);
+        $ruangan = Ruangan::find($id);
 
         try {
             // Hapus data pengguna
-            $position->delete();
+            $ruangan->delete();
             return redirect()->back()->with('deleteSuccess', 'Data berhasil dihapus!');
         } catch (\Exception $e) {
             return redirect()->back()->with('deleteFail', $e->getMessage());

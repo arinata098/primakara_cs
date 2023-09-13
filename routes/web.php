@@ -7,6 +7,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\ChecklistController;
 use App\Http\Controllers\Admin\RuanganController;
+use App\Http\Controllers\Admin\RoomChecklistController;
 // User
 use App\Http\Controllers\User\UserController;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
@@ -33,6 +34,14 @@ Route::patch('password', [ChangePasswordController::class, 'update'])->name('pas
 
 Route::middleware(['admin'])->group(function () {
     Route::get('/adminDashboard', [AdminController::class, 'index'])->middleware('auth')->name('adminDashboard');
+    // RoomcheckList
+    Route::get('/roomChecklist', [RoomChecklistController::class, 'index'])->middleware('auth')->name('roomChecklist');
+    Route::get('/createRoomChecklist', [RoomChecklistController::class, 'create'])->middleware('auth')->name('create.roomChecklist');
+    Route::post('/storeRoomChecklist', [RoomChecklistController::class, 'store'])->middleware('auth')->name('insert.roomChecklist');
+    Route::get('/editRoomChecklist/{id}', [RoomChecklistController::class, 'edit'])->middleware('auth')->name('edit.roomChecklist');
+    Route::post('/updateRoomChecklist/{id}', [RoomChecklistController::class, 'update'])->middleware('auth')->name('update.roomChecklist');
+    Route::delete('/deleteRoomChecklist/{id}', [RoomChecklistController::class, 'destroy'])->middleware('auth')->name('destroy.roomChecklist');
+
     // checkList
     Route::get('/checklist', [ChecklistController::class, 'index'])->middleware('auth')->name('checklist');
     Route::post('/storeCheckList', [ChecklistController::class, 'store'])->middleware('auth')->name('insert.checklist');

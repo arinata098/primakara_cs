@@ -37,7 +37,7 @@ class ChecklistController extends Controller
         try {
             DB::beginTransaction();
 
-            // insert ke tabel positions
+            // insert ke tabel
             CheckList::create([
                 'nama_list' => $request->nama_list
             ]);
@@ -102,11 +102,11 @@ class ChecklistController extends Controller
     public function destroy($id)
     {
         // Cari data pengguna berdasarkan ID
-        $position = CheckList::find($id);
+        $checklist = CheckList::find($id);
 
         try {
             // Hapus data pengguna
-            $position->delete();
+            $checklist->delete();
             return redirect()->back()->with('deleteSuccess', 'Data berhasil dihapus!');
         } catch (\Exception $e) {
             return redirect()->back()->with('deleteFail', $e->getMessage());

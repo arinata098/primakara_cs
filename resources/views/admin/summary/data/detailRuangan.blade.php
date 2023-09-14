@@ -17,7 +17,7 @@
                                         <div class="card-px pt-10 d-flex justify-content-between">
                                             <!--begin::Title-->
                                                 <div class="d-inline mt-2">
-                                                    <h2 class="fs-2x fw-bolder mb-0">{{ $title }}</h2>
+                                                    <h2 class="fs-2x fw-bolder mb-0">{{ $title }} Ruangan {{ $namaRuangan }}</h2>
                                                 </div>
                                                 <div class="d-inline">
 													<button class="btn btn-secondary" onclick="history.back()">Back</button>
@@ -32,7 +32,7 @@
                                             <table class="table table-striped gy-7 gs-7">
                                                 <thead>
                                                     <tr class="fw-bold fs-6 text-gray-800 border-bottom-2 border-gray-200">
-                                                        <th class="min-w-100px">Id</th>
+                                                        <th class="min-w-100px">No</th>
 														<th class="min-w-100px">Tgl Check</th>
 														<th class="min-w-100px">Petugas</th>
                                                         <th class="min-w-100px">Status</th>
@@ -40,9 +40,12 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
+                                                    @php
+                                                        $no = 1; // Inisialisasi no
+                                                    @endphp
                                                     @foreach ($detailRuangan as $item)
                                                     <tr>
-														<td>{{ $item->id }}</td>
+														<td>{{ $no}}</td>
                                                         <td>{{ $item->tgl_check }}</td>
 														<td>{{ $item->user->username }}</td>
 														<!-- <td>{{ $item->validasi }}</td> -->
@@ -55,9 +58,13 @@
                                                         </td>
                                                         <td>
                                                             <a href="{{ route('listDetail', $item->id_atribut_checklist) }}" class="btn btn-sm btn-primary btn-action" data-toggle="tooltip" title="Detail"><i class="fas fa-eye"></i></a>
-                                                            <a href="{{ route('validasiData', ['id_atribut_checklist' => $item->id_atribut_checklist]) }}" class="btn btn-sm btn-success btn-action" data-toggle="tooltip" title="Validasi">Validasi</a>
+                                                            <a href="{{ route('validasiData', ['id_atribut_checklist' => $item->id_atribut_checklist]) }}" class="btn btn-sm {{ $item->validasi == 1 ? 'btn-success' : 'btn-warning' }} btn-action" data-toggle="tooltip" title="{{ $item->validasi == 1 ? 'Tervalidasi' : 'Validasi' }}"><i class="fas fa-check"></i>
+                                                            </a>
                                                         </td>
                                                     </tr>
+                                                    @php
+                                                        $no++; // Tambahkan no setiap kali iterasi
+                                                    @endphp
                                                     @endforeach
                                                 </tbody>
                                             </table>

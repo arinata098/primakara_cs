@@ -21,7 +21,7 @@
                                                 </div>
                                                 <div class="d-inline">
 													<button class="btn btn-secondary" onclick="history.back()">Back</button>
-                                                    <!-- <a href="#" class="btn btn-sm btn-success fs-6" data-bs-toggle="modal" data-bs-target="#kt_modal_new_ruangan">Validasi</a> -->
+                                                    <a href="{{ route('validasiData', ['id_atribut_checklist' => $id_atribut_checklist]) }}" class="btn btn-sm btn-success fs-6">Validasi</a>
                                                 </div>
                                             <!--end::Title-->
                                         </div>
@@ -38,9 +38,12 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
+                                                    @php
+                                                        $no = 1; // Inisialisasi counter
+                                                    @endphp
                                                     @foreach ($listDetail as $item)
                                                     <tr>
-														<td>{{ $item->id }}</td>
+														<td>{{ $no }}</td>
                                                         <td>{{ $item->list->nama_list }}</td>
                                                         <td>
                                                             @if ($item->status == 1)
@@ -50,6 +53,9 @@
                                                             @endif
                                                         </td>
                                                     </tr>
+                                                    @php
+                                                        $no++; // Tambahkan counter setiap kali iterasi
+                                                    @endphp
                                                     @endforeach
                                                 </tbody>
                                             </table>

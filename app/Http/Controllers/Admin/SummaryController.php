@@ -41,7 +41,9 @@ class SummaryController extends Controller
     {
         $dataList = Validasi::whereHas('atributDetails', function ($query) use ($id_ruangan) {
             $query->where('id_ruangan', $id_ruangan);
-        })->with('user')->get();
+        })->with('user')
+        ->orderBy('id', 'desc')
+        ->get();
     
         return view('admin.summary.data.detailRuangan', [
             'title' => 'Summary',
@@ -63,5 +65,15 @@ class SummaryController extends Controller
             'active' => 'Summary',
             'listDetail' => $listDetail,
         ]);
+    }
+
+    public function validasi_data($id_atribut_checklist)
+    {
+    try {
+        Validasi::where('id_atribut_checklist', $id_atribut_checklist)->update(['validasi' => 1]);
+            return redirect()->back()->with('success', 'Status validasi berhasil diperbarui');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Gagal memperbarui status validasi');
+        }
     }
 }

@@ -12,8 +12,6 @@ use App\Models\Ruangan;
 use App\Models\RoomChecklist;
 use App\Models\AtributChecklist;
 use App\Models\Validasi;
-use Ramsey\Uuid\Uuid;
-
 
 
 class UserController extends Controller
@@ -109,7 +107,17 @@ class UserController extends Controller
         try {
             DB::beginTransaction();
 
-            $uuid = Uuid::uuid4()->toString(); // Membuat UUID versi 4 (random)
+            $uuid = sprintf(
+                '%04x%04x-%04x-%04x-%04x-%04x%04x%04x',
+                random_int(0, 0xffff),
+                random_int(0, 0xffff),
+                random_int(0, 0xffff),
+                random_int(0, 0x0fff) | 0x4000,
+                random_int(0, 0x3fff) | 0x8000,
+                random_int(0, 0xffff),
+                random_int(0, 0xffff),
+                random_int(0, 0xffff)
+            ); // Membuat UUID versi 4 (random)
             // Data yang akan dimasukkan ke tabel validasi_data
             $validasiData = [
                 'id_atribut_checklist' => $uuid,

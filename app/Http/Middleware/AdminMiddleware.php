@@ -22,13 +22,7 @@ class AdminMiddleware
             return $next($request);
         }
 
-        Auth::logout();
- 
-        $request->session()->invalidate();
-    
-        $request->session()->regenerateToken();
-    
-        return redirect('/login')->with('loginError', 'Not Admin');
+        return redirect('/userDashboard')->with('insertFail', 'Not Admin');
     }
 
 }

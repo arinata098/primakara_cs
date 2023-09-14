@@ -36,7 +36,7 @@ class SummaryController extends Controller
             'rooms' => $roomList,
         ]);
     }
-    
+
     public function detail_ruangan($id_ruangan)
     {
         $ruangan = Ruangan::find($id_ruangan); // Mengambil data nama ruangan berdasarkan id_ruangan
@@ -45,12 +45,15 @@ class SummaryController extends Controller
         })->with('user')
         ->orderBy('tgl_check', 'desc')
         ->get();
-    
+
+        $detailLists = Validasi::with('atributDetails.list')->get();
+
         return view('admin.summary.data.detailRuangan', [
             'title' => 'Summary',
             'section' => 'Aktivitas',
             'active' => 'Summary',
             'detailRuangan' => $dataList,
+            'detailLists' => $detailLists,
             'namaRuangan' => $ruangan->nama_ruangan,
         ]);
     }
@@ -60,7 +63,7 @@ class SummaryController extends Controller
         $listDetail = AtributChecklist::with('list') // load the list relationship
         ->where('id_atribut', $id_atribut_checklist)
         ->get();
-    
+
         return view('admin.summary.data.listDetail', [
             'title' => 'Summary',
             'section' => 'Aktivitas',

@@ -61,26 +61,26 @@ class UserController extends Controller
             ]);
     }
 
-    public function formRuangan($uuid)
-    {
-        $formRooms = RoomChecklist::with('roomInRCL', 'checklistInRCL')
-        ->where('uuid', $uuid)
-        ->select('*')
-        ->get();
+    // public function formRuangan($uuid)
+    // {
+    //     $formRooms = RoomChecklist::with('roomInRCL', 'checklistInRCL')
+    //     ->where('uuid', $uuid)
+    //     ->select('*')
+    //     ->get();
 
-        dd($formRooms);
+    //     dd($formRooms);
 
-        if (count($formRooms) === 0) {
-            return redirect()->back()->with('dataNotFound', 'Data not found');
-        }
+    //     if (count($formRooms) === 0) {
+    //         return redirect()->back()->with('dataNotFound', 'Data not found');
+    //     }
 
-            return view('user.ruangan', [
-                'title' => 'Pilih Ruangan',
-                'secction' => 'Dashboard',
-                'formRooms' => $formRooms,
-                'active' => 'Dashboard'
-            ]);
-    }
+    //         return view('user.ruangan', [
+    //             'title' => 'Pilih Ruangan',
+    //             'secction' => 'Dashboard',
+    //             'formRooms' => $formRooms,
+    //             'active' => 'Dashboard'
+    //         ]);
+    // }
 
     public function storeForm(Request $request) {
 
@@ -102,6 +102,15 @@ class UserController extends Controller
 
             // Kembali ke halaman sebelumnya
             return redirect()->back()->withErrors($errors)->withInput();
+        }
+
+        // Periksa apakah ada data dengan id_ruangan yang sama pada created_at yang sama
+        $existingData = AtributChecklist::where('id_ruangan', $request->id_ruangan)
+        ->whereDate('created_at', '=', date('Y-m-d', strtotime($request->tgl_check)))
+        ->exists();
+
+        if ($existingData) {
+        return redirect()->back()->with('insertFail', 'Ruangan ini telah dibersihkan untuk hari ini.');
         }
 
         try {

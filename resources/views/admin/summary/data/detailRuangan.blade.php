@@ -21,7 +21,7 @@
                                                 </div>
                                                 <div class="d-inline">
 													<button class="btn btn-secondary" onclick="history.back()">Back</button>
-                                                    <a href="#" class="btn btn-sm btn-success fs-6" data-bs-toggle="modal" data-bs-target="#kt_modal_new_ruangan">Validasi All</a>
+                                                    <!-- <a href="#" class="btn btn-sm btn-success fs-6" data-bs-toggle="modal" data-bs-target="#kt_modal_new_ruangan">Validasi </a> -->
                                                 </div>
                                             <!--end::Title-->
                                         </div>
@@ -55,6 +55,7 @@
                                                         </td>
                                                         <td>
                                                             <a href="{{ route('listDetail', $item->id_atribut_checklist) }}" class="btn btn-sm btn-primary btn-action" data-toggle="tooltip" title="Detail"><i class="fas fa-eye"></i></a>
+                                                            <a href="{{ route('validasiData', ['id_atribut_checklist' => $item->id_atribut_checklist]) }}" class="btn btn-sm btn-success btn-action" data-toggle="tooltip" title="Validasi">Validasi</a>
                                                         </td>
                                                     </tr>
                                                     @endforeach

@@ -21,7 +21,7 @@
                                                 </div>
                                                 <div class="d-inline">
 													<button class="btn btn-secondary" onclick="history.back()">Back</button>
-                                                    <a href="#" class="btn btn-sm btn-success fs-6" data-bs-toggle="modal" data-bs-target="#kt_modal_new_ruangan">Validasi</a>
+                                                    <!-- <a href="#" class="btn btn-sm btn-success fs-6" data-bs-toggle="modal" data-bs-target="#kt_modal_new_ruangan">Validasi</a> -->
                                                 </div>
                                             <!--end::Title-->
                                         </div>
@@ -34,7 +34,7 @@
                                                     <tr class="fw-bold fs-6 text-gray-800 border-bottom-2 border-gray-200">
                                                         <th class="min-w-100px">Id</th>
 														<th class="min-w-300px">List</th>
-                                                        <th class="min-w-100px">Dichecklist/tidak</th>
+                                                        <th class="min-w-100px">Dichecklist</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -42,7 +42,13 @@
                                                     <tr>
 														<td>{{ $item->id }}</td>
                                                         <td>{{ $item->list->nama_list }}</td>
-														<td>{{ $item->status }}</td>
+                                                        <td>
+                                                            @if ($item->status == 1)
+                                                                <i class="fa fa-check" style="color: green;"></i> Dichecklist
+                                                            @elseif ($item->status == 0)
+                                                                <i class="fa fa-times" style="color: red;"></i> Belum Dichecklist
+                                                            @endif
+                                                        </td>
                                                     </tr>
                                                     @endforeach
                                                 </tbody>
@@ -81,77 +87,6 @@
                                     <!--end::Card body-->
                                 </div>
                                 <!--end::Card-->
-                                <!--begin::Modal-->
-                                <div class="modal fade" id="kt_modal_new_ruangan" tabindex="-1" aria-hidden="true">
-                                    <!--begin::Modal dialog-->
-                                    <div class="modal-dialog modal-dialog-centered mw-650px">
-                                        <!--begin::Modal content-->
-                                        <div class="modal-content">
-                                            <!--begin::Modal header-->
-                                            <div class="modal-header">
-                                                <!--begin::Modal title-->
-                                                <h2>Tambah {{ $title }}</h2>
-                                                <!--end::Modal title-->
-                                                <!--begin::Close-->
-                                                <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
-                                                    <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
-                                                    <span class="svg-icon svg-icon-1">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                                                            <rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1" transform="rotate(-45 6 17.3137)" fill="black" />
-                                                            <rect x="7.41422" y="6" width="16" height="2" rx="1" transform="rotate(45 7.41422 6)" fill="black" />
-                                                        </svg>
-                                                    </span>
-                                                    <!--end::Svg Icon-->
-                                                </div>
-                                                <!--end::Close-->
-                                            </div>
-                                            <!--end::Modal header-->
-                                            <!--begin::Modal body-->
-                                            <div class="modal-body scroll-y mx-5 mx-xl-15 my-7">
-                                                <!--begin::Form-->
-                                                <form action="{{ route('insert.ruangan') }}" method="POST">
-                                                    @csrf
-                                                    <!--begin::Input group-->
-                                                    <div class="d-flex flex-column mb-7 fv-row">
-                                                        <!--begin::Label-->
-                                                        <label class="d-flex align-items-center fs-6 fw-bold form-label mb-2">
-                                                            <span class="required">Nama Ruangan</span>
-                                                        </label>
-                                                        <!--end::Label-->
-                                                        <input class="form-control form-control-solid" type="text" name="nama_ruangan" required value=""/>
-                                                    </div>
-                                                    <div class="d-flex flex-column mb-7 fv-row">
-                                                        <!--begin::Label-->
-                                                        <label class="d-flex align-items-center fs-6 fw-bold form-label mb-2">
-                                                            <span class="required">Lokasi Lantai</span>
-                                                        </label>
-                                                        <!--end::Label-->
-                                                        <select class="form-select form-select-solid" name="lantai" required>
-                                                            <option value="1">Lantai 1</option>
-                                                            <option value="2">Lantai 2</option>
-                                                            <option value="3">Lantai 3</option>
-                                                            <option value="4">Lantai 4</option>
-                                                        </select>
-                                                    </div>
-                                                    <!--end::Input group-->
-                                                    <!--begin::Actions-->
-                                                    <div class="text-center pt-15">
-                                                        <button type="reset" data-bs-dismiss="modal" class="btn btn-light me-3">Cancel</button>
-                                                        <button type="submit" class="btn btn-primary">
-                                                            <span class="indicator-label">Submit</span>
-                                                        </button>
-                                                    </div>
-                                                    <!--end::Actions-->
-                                                </form>
-                                                <!--end::Form-->
-                                            </div>
-                                            <!--end::Modal body-->
-                                        </div>
-                                        <!--end::Modal content-->
-                                    </div>
-                                    <!--end::Modal dialog-->
-                                </div>
-                                <!--end::Modal-->
 							</div>
 							<!--end::Container-->
 						</div>

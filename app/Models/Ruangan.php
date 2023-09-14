@@ -15,7 +15,8 @@ class Ruangan extends Model
 
     protected $fillable = [
         'nama_ruangan',
-        'lantai'
+        'lantai',
+        'kategori'
     ];
 
     public $timestamps = true;

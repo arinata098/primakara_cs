@@ -39,10 +39,11 @@ class SummaryController extends Controller
     
     public function detail_ruangan($id_ruangan)
     {
+        $ruangan = Ruangan::find($id_ruangan); // Mengambil data nama ruangan berdasarkan id_ruangan
         $dataList = Validasi::whereHas('atributDetails', function ($query) use ($id_ruangan) {
             $query->where('id_ruangan', $id_ruangan);
         })->with('user')
-        ->orderBy('id', 'desc')
+        ->orderBy('tgl_check', 'desc')
         ->get();
     
         return view('admin.summary.data.detailRuangan', [
@@ -50,6 +51,7 @@ class SummaryController extends Controller
             'section' => 'Aktivitas',
             'active' => 'Summary',
             'detailRuangan' => $dataList,
+            'namaRuangan' => $ruangan->nama_ruangan,
         ]);
     }
 
@@ -64,9 +66,11 @@ class SummaryController extends Controller
             'section' => 'Aktivitas',
             'active' => 'Summary',
             'listDetail' => $listDetail,
+            'id_atribut_checklist' => $id_atribut_checklist, // Mengirimkan $id_atribut_checklist ke tampilan
         ]);
     }
 
+    // Function untuk melakukan validasi oleh Bagian SDM
     public function validasi_data($id_atribut_checklist)
     {
     try {

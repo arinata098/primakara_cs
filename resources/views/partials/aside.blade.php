@@ -3,7 +3,7 @@
     <div class="aside-logo flex-column-auto" id="kt_aside_logo">
         <!--begin::Logo-->
         <a href="/">
-            <img alt="Logo" src="assets/media/logos/whiteprimakara.png" class="h-40px logo" />
+            <img alt="Logo" src="assets/media/logos/whiteprimakara.png" class="h-30px logo" />
         </a>
         <!--end::Logo-->
         <!--begin::Aside toggler-->

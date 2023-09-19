@@ -48,7 +48,7 @@ class RuanganController extends Controller
 
             DB::commit();
 
-            return redirect()->back()->with('insertSuccess', 'Data created successfully.');
+            return redirect()->back()->with('insertSuccess', 'Data berhasil di Inputkan.');
 
         } catch(Exception $e) {
             DB::rollBack();
@@ -62,7 +62,7 @@ class RuanganController extends Controller
         $ruangan = Ruangan::find($id);
 
         if (!$ruangan) {
-            return redirect()->back()->with('dataNotFound', 'Data not found');
+            return redirect()->back()->with('dataNotFound', 'Data tidak ditemukan');
         }
 
         return view('admin.master.ruangan.edit', [
@@ -78,7 +78,7 @@ class RuanganController extends Controller
         $ruangan = Ruangan::find($id);
 
         if (!$ruangan) {
-            return redirect()->back()->with('dataNotFound', 'Data not found');
+            return redirect()->back()->with('dataNotFound', 'Data tidak ditemukan');
         }
 
         // validasi input yang didapatkan dari request
@@ -100,10 +100,10 @@ class RuanganController extends Controller
 
             $ruangan->save();
 
-            return redirect('/ruangan')->with('updateSuccess', 'Updated successfully');
+            return redirect('/ruangan')->with('updateSuccess', 'Data berhasil di Update');
         } catch(Exception $e) {
             dd($e);
-            return redirect()->back()->with('updateFail', 'Updated failed');
+            return redirect()->back()->with('updateFail', 'Data gagal di Update');
         }
     }
 

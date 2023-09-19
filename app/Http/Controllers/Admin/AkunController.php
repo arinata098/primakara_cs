@@ -52,7 +52,7 @@ class AkunController extends Controller
 
             DB::commit();
 
-            return redirect()->back()->with('insertSuccess', 'Data berhasil ditambahkan');
+            return redirect()->back()->with('insertSuccess', 'Data berhasil di Inputkan');
 
         } catch(Exception $e) {
             DB::rollBack();
@@ -104,10 +104,10 @@ class AkunController extends Controller
 
             $akun->save();
 
-            return redirect('/akun')->with('updateSuccess', 'Data berhasil diupdate');
+            return redirect('/akun')->with('updateSuccess', 'Data berhasil di Update');
         } catch(Exception $e) {
             dd($e);
-            return redirect()->back()->with('updateFail', 'Update data gagal');
+            return redirect()->back()->with('updateFail', 'Data gagal di Update');
         }
     }
 
@@ -167,10 +167,10 @@ class AkunController extends Controller
 
             $akun->save();
 
-            return redirect('/akun')->with('updateSuccess', 'Data berhasil direset');
+            return redirect('/akun')->with('updateSuccess', 'Data berhasil di Reset');
         } catch(Exception $e) {
             dd($e);
-            return redirect()->back()->with('updateFail', 'Reset data gagal');
+            return redirect()->back()->with('updateFail', 'Data gagal di Reset');
         }
     }
 

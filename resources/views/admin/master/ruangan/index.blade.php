@@ -40,7 +40,7 @@
                                                 </thead>
                                                 <tbody>
                                                     @php
-                                                        $no = 1; // Inisialisasi counter
+                                                        $no = 1; // Inisialisasi no
                                                     @endphp
                                                     @foreach ($ruangans as $item)
                                                     <tr>
@@ -67,7 +67,7 @@
                                                         </td>
                                                     </tr>
                                                     @php
-                                                        $no++; // Tambahkan counter setiap kali iterasi
+                                                        $no++; // Tambahkan no setiap kali iterasi
                                                     @endphp
                                                     @endforeach
                                                 </tbody>
@@ -192,4 +192,13 @@
 						</div>
 						<!--end::Post-->
 					</div>
+                    <script>
+                        function confirmDelete(event) {
+                            event.preventDefault(); // Menghentikan tindakan penghapusan asli
+                            if (confirm("Apakah Anda yakin ingin menghapus?")) {
+                                // Jika pengguna menekan OK dalam konfirmasi, lanjutkan dengan penghapusan
+                                event.target.form.submit();
+                            }
+                        }
+                    </script>
 @endsection

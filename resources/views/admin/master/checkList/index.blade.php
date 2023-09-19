@@ -31,15 +31,18 @@
                                             <table class="table table-striped gy-7 gs-7">
                                                 <thead>
                                                     <tr class="fw-bold fs-6 text-gray-800 border-bottom-2 border-gray-200">
-                                                        <th class="min-w-100px">Id</th>
+                                                        <th class="min-w-100px">No</th>
                                                         <th class="min-w-300px">Nama List Pekerjaan</th>
                                                         <th class="min-w-200px">Action</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
+                                                    @php
+                                                        $no = 1; // Inisialisasi counter
+                                                    @endphp
                                                     @foreach ($checkLists as $item)
                                                     <tr>
-                                                        <td>{{ $item->id_list }}</td>
+                                                        <td>{{ $no }}</td>
                                                         <td>{{ $item->nama_list }}</td>
                                                         <td>
                                                             <a href="{{ route('edit.checklist', $item->id_list ) }}" class="btn btn-sm btn-primary btn-action" data-toggle="tooltip" title="Edit"><i class="fas fa-pencil-alt"></i></a>
@@ -53,6 +56,9 @@
                                                             </form>
                                                         </td>
                                                     </tr>
+                                                    @php
+                                                        $no++; // Tambahkan counter setiap kali iterasi
+                                                    @endphp
                                                     @endforeach
                                                 </tbody>
                                             </table>
@@ -153,4 +159,13 @@
 						</div>
 						<!--end::Post-->
 					</div>
+                    <script>
+                        function confirmDelete(event) {
+                            event.preventDefault(); // Menghentikan tindakan penghapusan asli
+                            if (confirm("Apakah Anda yakin ingin menghapus?")) {
+                                // Jika pengguna menekan OK dalam konfirmasi, lanjutkan dengan penghapusan
+                                event.target.form.submit();
+                            }
+                        }
+                    </script>
 @endsection

@@ -31,7 +31,7 @@
                                             <table class="table table-striped gy-7 gs-7">
                                                 <thead>
                                                     <tr class="fw-bold fs-6 text-gray-800 border-bottom-2 border-gray-200">
-                                                        <th class="min-w-100px">Id</th>
+                                                        <th class="min-w-100px">No</th>
                                                         <th class="min-w-300px">Username</th>
                                                         <th class="min-w-100px">Role</th>
                                                         <th class="min-w-100px">Status</th>
@@ -39,9 +39,12 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
+                                                    @php
+                                                        $no = 1; // Inisialisasi no
+                                                    @endphp
                                                     @foreach ($akuns as $item)
                                                     <tr>
-                                                        <td>{{ $item->id }}</td>
+                                                        <td>{{ $no }}</td>
                                                         <td>{{ $item->username }}</td>
                                                         <td>
                                                             @if ($item->is_admin == 1)
@@ -70,6 +73,9 @@
                                                             <a href="{{ route('reset.akun', $item->id ) }}" class="btn btn-sm btn-warning btn-action" data-toggle="tooltip" title="Reset"><i class="fas fa-sync"></i></a>
                                                         </td>
                                                     </tr>
+                                                    @php
+                                                        $no++; // Tambahkan no setiap kali iterasi
+                                                    @endphp
                                                     @endforeach
                                                 </tbody>
                                             </table>
@@ -189,4 +195,13 @@
 						</div>
 						<!--end::Post-->
 					</div>
+                    <script>
+                        function confirmDelete(event) {
+                            event.preventDefault(); // Menghentikan tindakan penghapusan asli
+                            if (confirm("Apakah Anda yakin ingin menghapus?")) {
+                                // Jika pengguna menekan OK dalam konfirmasi, lanjutkan dengan penghapusan
+                                event.target.form.submit();
+                            }
+                        }
+                    </script>
 @endsection

@@ -25,11 +25,11 @@
                                             <form method="get" action="{{ route('rangkuman') }}" class="d-flex align-items-center">
                                                 <div class="me-2">
                                                     <label for="tanggal_awal" class="form-label">Tanggal Awal:</label>
-                                                    <input type="date" name="tanggal_awal" id="tanggal_awal" class="form-control">
+                                                    <input type="date" name="tanggal_awal" id="tanggal_awal" class="form-control" value="{{ request('tanggal_awal') }}">
                                                 </div>
                                                 <div class="me-2">
                                                     <label for="tanggal_akhir" class="form-label">Tanggal Akhir:</label>
-                                                    <input type="date" name="tanggal_akhir" id="tanggal_akhir" class="form-control">
+                                                    <input type="date" name="tanggal_akhir" id="tanggal_akhir" class="form-control" value="{{ request('tanggal_akhir') }}">
                                                 </div>
                                                 <button type="submit" class="btn btn-primary mt-8">Filter</button>
                                             </form>
@@ -153,7 +153,7 @@
                                         </div>
                                         <!-- Pagination Links -->
                                         <div class="d-flex justify-content-center">
-                                            {{ $detailData->links() }}
+                                            {{ $detailData->appends(['tanggal_awal' => request('tanggal_awal'), 'tanggal_akhir' => request('tanggal_akhir')])->links() }}
                                         </div>
 
                                         @else

@@ -82,17 +82,23 @@ class SummaryController extends Controller
             ->with('user')
             ->orderBy('tgl_check', 'desc');
     
-        // Filter berdasarkan tanggal awal dan tanggal akhir
-        if ($request->has('tanggal_awal') && $request->has('tanggal_akhir')) {
-            $tanggal_awal = $request->input('tanggal_awal');
-            $tanggal_akhir = $request->input('tanggal_akhir');
+    // Filter berdasarkan tanggal awal dan tanggal akhir jika disediakan
+    if ($request->filled('tanggal_awal') && $request->filled('tanggal_akhir')) {
+        $tanggal_awal = $request->input('tanggal_awal');
+        $tanggal_akhir = $request->input('tanggal_akhir');
 
-            $query->whereBetween('validasi_data.tgl_check', [$tanggal_awal, $tanggal_akhir]);
-        }
+        $query->whereBetween('validasi_data.tgl_check', [$tanggal_awal, $tanggal_akhir]);
+    }
     
-        $dataList = $query->get();
-    
+        // $dataList = $query->get();
+        // Menggunakan paginate() untuk mendapatkan data paginasi dengan 10 item per halaman
+        $dataList = $query->paginate(10);
+
         $detailLists = Validasi::with('atributDetails.list')->get();
+
+        // Mengecek apakah filter tanggal telah digunakan
+        $filterUsed = $request->filled('tanggal_awal') && $request->filled('tanggal_akhir');
+
     
         return view('admin.summary.rangkuman.index', [
             'title' => 'All Data',
@@ -100,6 +106,7 @@ class SummaryController extends Controller
             'active' => 'All Data',
             'detailData' => $dataList,
             'detailLists' => $detailLists,
+            'filterUsed' => $filterUsed, // Mengirimkan status penggunaan filter ke tampilan
         ]);
     }
 

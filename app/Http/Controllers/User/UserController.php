@@ -162,7 +162,7 @@ class UserController extends Controller
 
             DB::commit();
 
-            return redirect()->back()->with('insertSuccess', 'Data berhasil disimpan.');
+            return redirect()->back()->with('insertSuccess', 'Data berhasil disimpan. Terima kasih sudah membersihkan ruangannya ❤️');
         } catch (Exception $e) {
             DB::rollBack();
             dd($e->getMessage());

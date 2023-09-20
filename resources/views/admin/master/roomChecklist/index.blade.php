@@ -31,15 +31,19 @@
                             <table class="table table-striped gy-7 gs-7">
                                 <thead>
                                     <tr class="fw-bold fs-6 text-gray-800 border-bottom-2 border-gray-200">
-                                        <th class="min-w-20px"></th>
+                                        
+                                        <th class="min-w-10000px">No</th>
                                         <th class="min-w-400px">Ruangan</th>
                                         <th class="min-w-200px">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    @php
+                                        $no = 1; // Inisialisasi no
+                                    @endphp
                                     @foreach ($roomChecklists as $item)
                                     <tr>
-                                        <td></td>
+                                        <td>{{ $no }}</td>
                                         <td>{{ $item->roomInRCL->nama_ruangan }}</td>
                                         <td>
                                             <a href="#" class="btn btn-sm btn-warning btn-action" title="View" data-toggle="tooltip" data-bs-toggle="modal" data-bs-target="#detailModal{{ $item->uuid }}"><i class="fas fa-eye"></i></a>
@@ -113,6 +117,9 @@
                                             </form>
                                         </td>
                                     </tr>
+                                    @php
+                                        $no++; // Tambahkan no setiap kali iterasi
+                                    @endphp
                                     @endforeach
                                 </tbody>
                             </table>
@@ -233,4 +240,13 @@
         </div>
         <!--end::Post-->
     </div>
+    <script>
+        function confirmDelete(event) {
+            event.preventDefault(); // Menghentikan tindakan penghapusan asli
+                if (confirm("Apakah Anda yakin ingin menghapus?")) {
+                    // Jika pengguna menekan OK dalam konfirmasi, lanjutkan dengan penghapusan
+                        event.target.form.submit();
+                    }
+                }
+    </script>
 @endsection

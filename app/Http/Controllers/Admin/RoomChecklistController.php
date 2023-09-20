@@ -92,7 +92,7 @@ class RoomChecklistController extends Controller
 
             DB::commit();
 
-            return redirect('/roomChecklist')->with('insertSuccess', 'Data created successfully.');
+            return redirect('/roomChecklist')->with('insertSuccess', 'Data berhasil di Inputkan');
 
         } catch(Exception $e) {
             DB::rollBack();
@@ -106,7 +106,7 @@ class RoomChecklistController extends Controller
         $roomChecklist = RoomChecklist::with('roomInRCL')->where('uuid', $uuid)->first();
 
         if (!$roomChecklist) {
-            return redirect()->back()->with('dataNotFound', 'Data not found');
+            return redirect()->back()->with('dataNotFound', 'Data tidak ditemukan');
         }
 
         $checkList = CheckList::all();
@@ -126,7 +126,7 @@ class RoomChecklistController extends Controller
         $RoomChecklist = RoomChecklist::where('uuid', $id)->first();
 
         if (!$RoomChecklist) {
-            return redirect()->back()->with('dataNotFound', 'Data not found');
+            return redirect()->back()->with('dataNotFound', 'Data tidak ditemukan');
         }
 
         // Validasi data
@@ -178,10 +178,10 @@ class RoomChecklistController extends Controller
 
             DB::commit();
 
-            return redirect('/roomChecklist')->with('updateSuccess', 'Data updated successfully.');
+            return redirect('/roomChecklist')->with('updateSuccess', 'Data berhasil di Update');
         } catch(Exception $e) {
             dd($e);
-            return redirect()->back()->with('updateFail', 'Updated failed');
+            return redirect()->back()->with('updateFail', 'Data gagal di Update');
         }
     }
 

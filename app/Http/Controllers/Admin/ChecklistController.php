@@ -44,7 +44,7 @@ class ChecklistController extends Controller
 
             DB::commit();
 
-            return redirect()->back()->with('insertSuccess', 'Data created successfully.');
+            return redirect()->back()->with('insertSuccess', 'Data berhasil di Inputkan');
 
         } catch(Exception $e) {
             DB::rollBack();
@@ -58,7 +58,7 @@ class ChecklistController extends Controller
         $checkList = CheckList::find($id);
 
         if (!$checkList) {
-            return redirect()->back()->with('dataNotFound', 'Data not found');
+            return redirect()->back()->with('dataNotFound', 'Data tidak ditemukan');
         }
 
         return view('admin.master.checkList.edit', [
@@ -74,7 +74,7 @@ class ChecklistController extends Controller
         $CheckList = CheckList::find($id);
 
         if (!$CheckList) {
-            return redirect()->back()->with('dataNotFound', 'Data not found');
+            return redirect()->back()->with('dataNotFound', 'Data tidak ditemukan');
         }
 
         // validasi input yang didapatkan dari request
@@ -92,10 +92,10 @@ class ChecklistController extends Controller
 
             $CheckList->save();
 
-            return redirect('/checklist')->with('updateSuccess', 'Updated successfully');
+            return redirect('/checklist')->with('updateSuccess', 'Data berhasil di Update');
         } catch(Exception $e) {
             dd($e);
-            return redirect()->back()->with('updateFail', 'Updated failed');
+            return redirect()->back()->with('updateFail', 'Data gagal di Update');
         }
     }
 

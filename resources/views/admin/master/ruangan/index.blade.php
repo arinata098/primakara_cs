@@ -31,18 +31,29 @@
                                             <table class="table table-striped gy-7 gs-7">
                                                 <thead>
                                                     <tr class="fw-bold fs-6 text-gray-800 border-bottom-2 border-gray-200">
-                                                        <th class="min-w-100px">Id</th>
+                                                        <th class="min-w-100px">No</th>
                                                         <th class="min-w-300px">Nama Ruangan</th>
                                                         <th class="min-w-300px">Lokasi Lantai</th>
+                                                        <th class="min-w-300px">Kategori</th>
                                                         <th class="min-w-200px">Action</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
+                                                    @php
+                                                        $no = 1; // Inisialisasi no
+                                                    @endphp
                                                     @foreach ($ruangans as $item)
                                                     <tr>
-                                                        <td>{{ $item->id_ruangan }}</td>
+                                                        <td>{{ $no }}</td>
                                                         <td>{{ $item->nama_ruangan }}</td>
                                                         <td>Lantai {{ $item->lantai }}</td>
+                                                        <td>
+                                                            @if ($item->kategori == 1)
+                                                                Sekali
+                                                            @elseif ($item->kategori == 2)
+                                                                Lebih dari sekali
+                                                            @endif
+                                                        </td>
                                                         <td>
                                                             <a href="{{ route('edit.ruangan', $item->id_ruangan ) }}" class="btn btn-sm btn-primary btn-action" data-toggle="tooltip" title="Edit"><i class="fas fa-pencil-alt"></i></a>
                                                             <form id="form-delete" action="{{ route('destroy.ruangan', $item->id_ruangan ) }}" method="POST"
@@ -55,6 +66,9 @@
                                                             </form>
                                                         </td>
                                                     </tr>
+                                                    @php
+                                                        $no++; // Tambahkan no setiap kali iterasi
+                                                    @endphp
                                                     @endforeach
                                                 </tbody>
                                             </table>
@@ -144,6 +158,16 @@
                                                             <option value="4">Lantai 4</option>
                                                         </select>
                                                     </div>
+                                                    <div class="d-flex flex-column mb-7 fv-row">
+                                                        <!--begin::Label-->
+                                                        <label class="d-flex align-items-center fs-6 fw-bold form-label mb-2">
+                                                            <span class="required">Kategori</span>
+                                                        </label>
+                                                    <select class="form-select form-select-solid" name="kategori" required>
+                                                            <option value="1">Sekali</option>
+                                                            <option value="2">Lebih dari sekali</option>
+                                                        </select>
+                                                    </div>
                                                     <!--end::Input group-->
                                                     <!--begin::Actions-->
                                                     <div class="text-center pt-15">
@@ -168,4 +192,13 @@
 						</div>
 						<!--end::Post-->
 					</div>
+                    <script>
+                        function confirmDelete(event) {
+                            event.preventDefault(); // Menghentikan tindakan penghapusan asli
+                            if (confirm("Apakah Anda yakin ingin menghapus?")) {
+                                // Jika pengguna menekan OK dalam konfirmasi, lanjutkan dengan penghapusan
+                                event.target.form.submit();
+                            }
+                        }
+                    </script>
 @endsection

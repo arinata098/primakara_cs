@@ -26,7 +26,8 @@ class RuanganController extends Controller
         // validasi input yang didapatkan dari request
         $validator = Validator::make($request->all(), [
             'nama_ruangan' => 'required|string|max:255',
-            'lantai' => 'required|string|max:255'
+            'lantai' => 'required|string|max:255',
+            'kategori' => 'required|integer|between:1,2'
         ]);
 
         // kalau ada error kembalikan error
@@ -41,12 +42,13 @@ class RuanganController extends Controller
             // insert ke tabel positions
             Ruangan::create([
                 'nama_ruangan' => $request->nama_ruangan,
-                'lantai' => $request->lantai
+                'lantai' => $request->lantai,
+                'kategori' => $request->kategori
             ]);
 
             DB::commit();
 
-            return redirect()->back()->with('insertSuccess', 'Data created successfully.');
+            return redirect()->back()->with('insertSuccess', 'Data berhasil di Inputkan.');
 
         } catch(Exception $e) {
             DB::rollBack();
@@ -60,7 +62,7 @@ class RuanganController extends Controller
         $ruangan = Ruangan::find($id);
 
         if (!$ruangan) {
-            return redirect()->back()->with('dataNotFound', 'Data not found');
+            return redirect()->back()->with('dataNotFound', 'Data tidak ditemukan');
         }
 
         return view('admin.master.ruangan.edit', [
@@ -76,13 +78,14 @@ class RuanganController extends Controller
         $ruangan = Ruangan::find($id);
 
         if (!$ruangan) {
-            return redirect()->back()->with('dataNotFound', 'Data not found');
+            return redirect()->back()->with('dataNotFound', 'Data tidak ditemukan');
         }
 
         // validasi input yang didapatkan dari request
         $validator = Validator::make($request->all(), [
             'nama_ruangan' => 'required|string|max:255',
-            'lantai' => 'required|string|max:255'
+            'lantai' => 'required|string|max:255',
+            'kategori' => 'required|integer|between:1,2'
         ]);
 
         // kalau ada error kembalikan error
@@ -93,13 +96,14 @@ class RuanganController extends Controller
         try{
             $ruangan->nama_ruangan = $request->nama_ruangan;
             $ruangan->lantai = $request->lantai;
+            $ruangan->kategori = $request->kategori;
 
             $ruangan->save();
 
-            return redirect('/ruangan')->with('updateSuccess', 'Updated successfully');
+            return redirect('/ruangan')->with('updateSuccess', 'Data berhasil di Update');
         } catch(Exception $e) {
             dd($e);
-            return redirect()->back()->with('updateFail', 'Updated failed');
+            return redirect()->back()->with('updateFail', 'Data gagal di Update');
         }
     }
 

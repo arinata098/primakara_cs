@@ -14,10 +14,10 @@ class SummaryController extends Controller
 {
     public function index()
     {
-        return view('admin.summary.data.index', [
-            'title' => 'Summary',
+        return view('admin.summary.validasi.index', [
+            'title' => 'Validasi',
             'section' => 'Aktivitas',
-            'active' => 'Summary'
+            'active' => 'Validasi'
         ]);
     }
 
@@ -29,10 +29,10 @@ class SummaryController extends Controller
             return redirect('/lantai')->with('dataNotFound', 'Data not found');
         }
 
-        return view('admin.summary.data.rooms', [
-            'title' => 'Summary',
+        return view('admin.summary.validasi.rooms', [
+            'title' => 'Validasi',
             'section' => 'Aktivitas',
-            'active' => 'Summary',
+            'active' => 'Validasi',
             'rooms' => $roomList,
         ]);
     }
@@ -48,28 +48,65 @@ class SummaryController extends Controller
 
         $detailLists = Validasi::with('atributDetails.list')->get();
 
-        return view('admin.summary.data.detailRuangan', [
-            'title' => 'Summary',
+        return view('admin.summary.validasi.detailRuangan', [
+            'title' => 'Validasi',
             'section' => 'Aktivitas',
-            'active' => 'Summary',
+            'active' => 'Validasi',
             'detailRuangan' => $dataList,
             'detailLists' => $detailLists,
             'namaRuangan' => $ruangan->nama_ruangan,
         ]);
     }
 
-    public function list_detail($id_atribut_checklist)
-    {
-        $listDetail = AtributChecklist::with('list') // load the list relationship
-        ->where('id_atribut', $id_atribut_checklist)
-        ->get();
+    // public function list_detail($id_atribut_checklist)
+    // {
+    //     $listDetail = AtributChecklist::with('list') // load the list relationship
+    //     ->where('id_atribut', $id_atribut_checklist)
+    //     ->get();
 
-        return view('admin.summary.data.listDetail', [
-            'title' => 'Summary',
+    //     return view('admin.summary.data.listDetail', [
+    //         'title' => 'Summary',
+    //         'section' => 'Aktivitas',
+    //         'active' => 'Summary',
+    //         'listDetail' => $listDetail,
+    //         'id_atribut_checklist' => $id_atribut_checklist, // Mengirimkan $id_atribut_checklist ke tampilan
+    //     ]);
+    // }
+
+    public function rangkuman(Request $request)
+    {
+        $query = Validasi::select('validasi_data.id_atribut_checklist', 'validasi_data.tgl_check', 'validasi_data.jam', 'validasi_data.id_cs', 'validasi_data.validasi', 'data_atribut_checklist.id_ruangan', 'ruangan.nama_ruangan')
+            ->join('data_atribut_checklist', 'validasi_data.id_atribut_checklist', '=', 'data_atribut_checklist.id_atribut')
+            ->join('ruangan', 'data_atribut_checklist.id_ruangan', '=', 'ruangan.id_ruangan')
+            ->groupBy('validasi_data.id_atribut_checklist')
+            ->with('user')
+            ->orderBy('tgl_check', 'desc');
+    
+    // Filter berdasarkan tanggal awal dan tanggal akhir jika disediakan
+    if ($request->filled('tanggal_awal') && $request->filled('tanggal_akhir')) {
+        $tanggal_awal = $request->input('tanggal_awal');
+        $tanggal_akhir = $request->input('tanggal_akhir');
+
+        $query->whereBetween('validasi_data.tgl_check', [$tanggal_awal, $tanggal_akhir]);
+    }
+    
+        // $dataList = $query->get();
+        // Menggunakan paginate() untuk mendapatkan data paginasi dengan 10 item per halaman
+        $dataList = $query->paginate(10);
+
+        $detailLists = Validasi::with('atributDetails.list')->get();
+
+        // Mengecek apakah filter tanggal telah digunakan
+        $filterUsed = $request->filled('tanggal_awal') && $request->filled('tanggal_akhir');
+
+    
+        return view('admin.summary.rangkuman.index', [
+            'title' => 'All Data',
             'section' => 'Aktivitas',
-            'active' => 'Summary',
-            'listDetail' => $listDetail,
-            'id_atribut_checklist' => $id_atribut_checklist, // Mengirimkan $id_atribut_checklist ke tampilan
+            'active' => 'All Data',
+            'detailData' => $dataList,
+            'detailLists' => $detailLists,
+            'filterUsed' => $filterUsed, // Mengirimkan status penggunaan filter ke tampilan
         ]);
     }
 
@@ -83,4 +120,6 @@ class SummaryController extends Controller
             return redirect()->back()->with('error', 'Gagal memperbarui status validasi');
         }
     }
+
+
 }

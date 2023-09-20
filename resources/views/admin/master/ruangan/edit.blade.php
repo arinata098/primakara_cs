@@ -45,6 +45,13 @@
 										<option value="4" {{$ruangan->lantai == 4 ? 'selected' : ''}}>Lantai 4</option>
 									</select>
 								</div>
+								<div class="mb-10">
+									<label for="exampleFormControlInput1" class="required form-label">Kategori</label>
+									<select class="form-select form-select-solid" name="kategori" required>
+										<option value="1" {{$ruangan->kategori == 1 ? 'selected' : ''}}>Sekali</option>
+										<option value="2" {{$ruangan->kategori == 2 ? 'selected' : ''}}>Lebih dari sekali</option>
+									</select>
+								</div>
                                 <div class="d-flex justify-content-end">
                                     <!--begin::Actions-->
                                     <a href="{{ route('ruangan') }}" class="btn btn-secondary">

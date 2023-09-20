@@ -46,12 +46,12 @@ License: You must have a valid license purchased only from themeforest(the above
 					<div class="d-flex flex-row-fluid flex-column justify-content-between">
 						<!--begin: Aside header-->
 						<a href="#" class="flex-column-auto mt-5 pb-lg-0 pb-10">
-							<img src="/assets/media/logos/whiteprimakara.png" class="max-h-70px" alt="" />
+							<img src="/assets/media/logos/whiteprimakara.png" class="max-h-60px" alt="" />
 						</a>
 						<!--end: Aside header-->
 						<!--begin: Aside content-->
 						<div class="flex-column-fluid d-flex flex-column justify-content-center">
-							<h3 class="font-size-h1 mb-5 text-white">Welcome to CSS Primakara</h3>
+							<h3 class="font-size-h1 mb-5 text-white">Welcome to CS Primakara</h3>
 							<p class="font-weight-lighter text-white opacity-80">Cleaning Service System of Primakara</p>
 						</div>
 						<!--end: Aside content-->

@@ -15,6 +15,7 @@ class Validasi extends Model
     protected $fillable = [
         'id_atribut_checklist',
         'tgl_check',
+        'jam',
         'id_cs',
         'keterangan',
         'validasi',

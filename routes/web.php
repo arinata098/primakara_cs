@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\RuanganController;
 use App\Http\Controllers\Admin\RoomChecklistController;
 use App\Http\Controllers\Admin\AkunController;
 use App\Http\Controllers\Admin\SummaryController;
+use App\Http\Controllers\Admin\LaporanController;
 // User
 use App\Http\Controllers\User\UserController;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
@@ -74,6 +75,9 @@ Route::middleware(['admin'])->group(function () {
     Route::get('/listDetail/{id}', [SummaryController::class, 'list_detail'])->middleware('auth')->name('listDetail');
     Route::get('/rangkuman', [SummaryController::class, 'rangkuman'])->middleware('auth')->name('rangkuman');
     Route::get('/validasiData/{id_atribut_checklist}', [SummaryController::class, 'validasi_data'])->middleware('auth')->name('validasiData');
+
+    // Laporan
+    Route::get('/laporan', [LaporanController::class, 'laporan'])->middleware('auth')->name('laporan');
 
 
 });

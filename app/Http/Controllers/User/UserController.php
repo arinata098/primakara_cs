@@ -12,6 +12,8 @@ use App\Models\Ruangan;
 use App\Models\RoomChecklist;
 use App\Models\AtributChecklist;
 use App\Models\Validasi;
+use DateTime;
+use DateTimeZone; // Import DateTimeZone
 
 
 class UserController extends Controller
@@ -89,9 +91,9 @@ class UserController extends Controller
             'tgl_check' => 'required|date',
             'id_list' => 'required|array',
             'status' => 'required|array',
-            'keterangan' => 'required|string',
             'id_cs' => 'required',
             'id_ruangan' => 'required',
+            'kategoriRuang' => 'required',
         ]);
 
         // Cek apakah validasi gagal
@@ -104,13 +106,50 @@ class UserController extends Controller
             return redirect()->back()->withErrors($errors)->withInput();
         }
 
-        // Periksa apakah ada data dengan id_ruangan yang sama pada created_at yang sama
-        $existingData = AtributChecklist::where('id_ruangan', $request->id_ruangan)
-        ->whereDate('created_at', '=', date('Y-m-d', strtotime($request->tgl_check)))
-        ->exists();
+        if ($request->kategoriRuang == 1 ) {
+            // Periksa apakah ada data dengan id_ruangan yang sama pada tgl_check yang sama
+            $existingData = AtributChecklist::with('validations')
+            ->where('id_ruangan', $request->id_ruangan)
+            ->whereHas('validations', function ($query) use ($request) {
+                $query->whereDate('tgl_check', '=', $request->tgl_check);
+            })
+            ->groupBy('id_atribut')
+            ->exists();
 
-        if ($existingData) {
-        return redirect()->back()->with('insertFail', 'Ruangan ini telah dibersihkan untuk hari ini.');
+            if ($existingData) {
+            return redirect()->back()->with('insertFail', 'Ruangan ini telah dibersihkan untuk hari ini.');
+            }
+        } elseif ($request->kategoriRuang == 2) {
+            // Periksa apakah ada data dengan id_ruangan yang sama pada tgl_check yang sama
+            $existingData = AtributChecklist::with('validations')
+            ->where('id_ruangan', $request->id_ruangan)
+            ->whereHas('validations', function ($query) use ($request) {
+                $query->whereDate('tgl_check', '=', $request->tgl_check);
+            })
+            ->groupBy('id_atribut')
+            ->get();
+
+            $totalsData = count($existingData);
+
+            if ($totalsData >= 4) {
+                return redirect()->back()->with('insertFail', 'Ruangan ini telah dibersihkan untuk hari ini.');
+            }
+        }
+
+        // cek keterangan null
+        if ($request->keterangan){
+            $keterangan = $request->keterangan;
+        } else {
+            $keterangan = "-";
+        }
+
+        // cek jam null
+        if ($request->jam){
+            $jam = date('H:i:s', strtotime($request->jam));
+        } else {
+            $timezone = new DateTimeZone('Asia/Makassar'); // Waktu Indonesia bagian tengah
+            $now = new DateTime('now', $timezone);
+            $jam = $now->format('H:i:s');
         }
 
         try {
@@ -131,8 +170,9 @@ class UserController extends Controller
             $validasiData = [
                 'id_atribut_checklist' => $uuid,
                 'tgl_check' => $request->tgl_check,
+                'jam' => $jam,
                 'id_cs' => $request->id_cs,
-                'keterangan' => $request->tgl_check,
+                'keterangan' => $keterangan,
                 'validasi' => 0,
                 // Tambahkan kolom lain sesuai kebutuhan Anda
             ];

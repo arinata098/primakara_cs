@@ -21,7 +21,7 @@
                             <div class="col-xl-4">
                                 <!--begin::Statistics Widget 5-->
 
-                                <a href="#" data-bs-toggle="modal" data-bs-target="#detailModal{{ $room->roomInRCL->nama_ruangan  }}" class="card bg-success hoverable card-xl-stretch mb-xl-8">
+                                <a href="#" data-bs-toggle="modal" data-bs-target="#detailModal{{ $room->roomInRCL->id_ruangan  }}" class="card bg-success hoverable card-xl-stretch mb-xl-8">
                                 {{-- <a href="{{ route('formRuangan', $room->uuid) }}" class="card bg-success hoverable card-xl-stretch mb-xl-8"> --}}
                                     <!--begin::Body-->
                                     <div class="card-body">
@@ -41,7 +41,7 @@
                                     <!--end::Body-->
                                 </a>
                                 <!--begin::Modal - New Card-->
-                                <div class="modal fade" id="detailModal{{ $room->roomInRCL->nama_ruangan  }}" tabindex="-1" aria-hidden="true">
+                                <div class="modal fade" id="detailModal{{ $room->roomInRCL->id_ruangan  }}" tabindex="-1" aria-hidden="true">
                                     <!--begin::Modal dialog-->
                                     <div class="modal-dialog modal-dialog-centered mw-850px">
                                         <!--begin::Modal content-->
@@ -86,6 +86,20 @@
                                                             </div>
                                                             <!--end::Input group-->
 
+                                                            @if ($room->roomInRCL->kategori == 2)
+                                                            <!--begin::Input group-->
+                                                            <div class="d-flex flex-column mb-7 fv-row">
+                                                                <!--begin::Label-->
+                                                                <label class="d-flex align-items-center fs-6 fw-bold form-label mb-2">
+                                                                    <span class="required">Waktu</span>
+                                                                </label>
+                                                                <!--end::Label-->
+                                                                <input class="form-control form-control-solid" type="time" onfocus="this.showPicker()" name="jam" value=""/>
+                                                            </div>
+                                                            <!--end::Input group-->
+
+                                                            @endif
+
                                                             {{-- begin list --}}
                                                             @foreach($roomChecklists as $roomChecklist)
                                                                 @if($room->id_ruangan == $roomChecklist->id_ruangan)
@@ -113,10 +127,10 @@
                                                             <div class="d-flex flex-column mx-5 mt-5 fv-row">
                                                                 <!--begin::Label-->
                                                                 <label class="d-flex align-items-center fs-6 fw-bold form-label mb-2">
-                                                                    <span class="required">Keterangan</span>
+                                                                    <span class="">Keterangan</span>
                                                                 </label>
                                                                 <!--end::Label-->
-										                        <textarea class="form-control form-control-solid" required rows="3" name="keterangan" placeholder="Keterangan"></textarea>
+										                        <textarea class="form-control form-control-solid" rows="3" name="keterangan" placeholder="Keterangan"></textarea>
 
                                                             </div>
                                                             <!--end::Input group-->
@@ -124,6 +138,7 @@
                                                             {{-- hidden input --}}
                                                             <input type="hidden" name="id_cs" value="{{ auth()->user()->id }}">
                                                             <input type="hidden" name="id_ruangan" value="{{ $room->id_ruangan}}">
+                                                            <input type="hidden" name="kategoriRuang" value="{{ $room->roomInRCL->kategori}}">
 
                                                             <!--begin::Actions-->
                                                             <div class="text-center pt-15">

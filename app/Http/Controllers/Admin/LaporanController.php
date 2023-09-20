@@ -12,8 +12,12 @@ use App\Models\AtributChecklist;
 
 class LaporanController extends Controller
 {
-    public function laporan()
+    public function laporan(Request $request)
     {
+        // Mengambil tanggal awal dan tanggal akhir dari request jika tersedia
+        $tanggalAwal = $request->filled('tanggal_awal') ? $request->input('tanggal_awal') : null;
+        $tanggalAkhir = $request->filled('tanggal_akhir') ? $request->input('tanggal_akhir') : null;
+
         $results = Validasi::select(
             'validasi_data.id_atribut_checklist',
             'validasi_data.tgl_check',
@@ -28,6 +32,10 @@ class LaporanController extends Controller
             ->join('data_atribut_checklist', 'validasi_data.id_atribut_checklist', '=', 'data_atribut_checklist.id_atribut')
             ->join('ruangan', 'data_atribut_checklist.id_ruangan', '=', 'ruangan.id_ruangan')
             ->join('check_list', 'data_atribut_checklist.id_list', '=', 'check_list.id_list')
+            ->when($tanggalAwal && $tanggalAkhir, function ($query) use ($tanggalAwal, $tanggalAkhir) {
+                // Tambahkan kondisi untuk memfilter berdasarkan rentang tanggal
+                $query->whereBetween('validasi_data.tgl_check', [$tanggalAwal, $tanggalAkhir]);
+            })
             ->orderBy('data_atribut_checklist.id_ruangan')
             ->orderBy('validasi_data.tgl_check')
             ->orderBy('data_atribut_checklist.id_list')
@@ -68,12 +76,15 @@ class LaporanController extends Controller
             $groupedData[$ruangan]['tugas'][$list][$tgl_check] = $status;
         }
         
+        // Mengecek apakah filter tanggal telah digunakan
+        $filterUsed = $request->filled('tanggal_awal') && $request->filled('tanggal_akhir');
 
         return view('admin.laporan.index', [
             'title' => 'Laporan',
             'section' => 'Aktivitas',
             'active' => 'Laporan',
             'export' => $groupedData,
+            'filterUsed' => $filterUsed, // Mengirimkan status penggunaan filter ke tampilan
         ]);
     }
 

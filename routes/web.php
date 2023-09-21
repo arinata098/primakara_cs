@@ -78,7 +78,8 @@ Route::middleware(['admin'])->group(function () {
 
     // Laporan
     Route::get('/laporan', [LaporanController::class, 'laporan'])->middleware('auth')->name('laporan');
-
+    Route::get('/exportToExcel', [LaporanController::class, 'exportToExcel'])->middleware('auth')->name('exportToExcel');
+    
 
 });
 

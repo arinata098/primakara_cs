@@ -16,10 +16,10 @@
                                         <!--begin::Heading-->
                                         <div class="card-px pt-10 d-flex justify-content-between">
                                             <!--begin::Title-->
-                                                <div class="d-inline">
-													<button class="btn btn-secondary" onclick="history.back()">Back</button>
-                                                    <!-- <a href="#" class="btn btn-sm btn-success fs-6" data-bs-toggle="modal" data-bs-target="#kt_modal_new_ruangan">Validasi </a> -->
-                                                </div>
+                                            <div class="d-inline">
+                                                <button class="btn btn-secondary" onclick="history.back()">Back</button>
+                                                <a href="{{ route('exportToExcel') }}?tanggal_awal={{ request()->input('tanggal_awal') }}&tanggal_akhir={{ request()->input('tanggal_akhir') }}" class="btn btn-success fs-6">Export to Excel</a>
+                                            </div>
                                             <!--end::Title-->
                                             <!--begin::Filter Form-->
                                             <form method="get" action="{{ route('laporan') }}" class="d-flex align-items-center">

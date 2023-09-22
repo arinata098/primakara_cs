@@ -7,17 +7,21 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Models\Ruangan;
+use App\Models\RoomCategory;
 
 class RuanganController extends Controller
 {
     public function index()
     {
-        $ruangans = Ruangan::all();
+        $ruangans = Ruangan::with('roomCate')->get();
+
+        $cateRooms = RoomCategory::all();
             return view('admin.master.ruangan.index', [
                 'title' => 'Ruangan',
                 'section' => 'Master',
                 'active' => 'ruangan',
                 'ruangans' => $ruangans,
+                'cateRooms' => $cateRooms,
             ]);
     }
 
@@ -27,7 +31,7 @@ class RuanganController extends Controller
         $validator = Validator::make($request->all(), [
             'nama_ruangan' => 'required|string|max:255',
             'lantai' => 'required|string|max:255',
-            'kategori' => 'required|integer|between:1,2'
+            'kategori' => 'required|integer'
         ]);
 
         // kalau ada error kembalikan error
@@ -59,7 +63,9 @@ class RuanganController extends Controller
 
     public function edit($id)
     {
-        $ruangan = Ruangan::find($id);
+        $ruangan = Ruangan::with('roomCate')->find($id);
+
+        $cateRooms = RoomCategory::all();
 
         if (!$ruangan) {
             return redirect()->back()->with('dataNotFound', 'Data tidak ditemukan');
@@ -70,6 +76,7 @@ class RuanganController extends Controller
             'secction' => 'Master',
             'active' => 'ruangan',
             'ruangan' => $ruangan,
+            'cateRooms' => $cateRooms,
         ]);
     }
 

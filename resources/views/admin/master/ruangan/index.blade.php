@@ -31,10 +31,10 @@
                                             <table class="table table-striped gy-7 gs-7">
                                                 <thead>
                                                     <tr class="fw-bold fs-6 text-gray-800 border-bottom-2 border-gray-200">
-                                                        <th class="min-w-100px">No</th>
-                                                        <th class="min-w-300px">Nama Ruangan</th>
-                                                        <th class="min-w-300px">Lokasi Lantai</th>
-                                                        <th class="min-w-300px">Kategori</th>
+                                                        <th class="min-w-80px">No</th>
+                                                        <th class="min-w-250px">Nama Ruangan</th>
+                                                        <th class="min-w-150px">Lantai</th>
+                                                        <th class="min-w-150px">Kategori</th>
                                                         <th class="min-w-200px">Action</th>
                                                     </tr>
                                                 </thead>
@@ -46,13 +46,9 @@
                                                     <tr>
                                                         <td>{{ $no }}</td>
                                                         <td>{{ $item->nama_ruangan }}</td>
-                                                        <td>Lantai {{ $item->lantai }}</td>
+                                                        <td>LT {{ $item->lantai }}</td>
                                                         <td>
-                                                            @if ($item->kategori == 1)
-                                                                Sekali
-                                                            @elseif ($item->kategori == 2)
-                                                                Lebih dari sekali
-                                                            @endif
+                                                            {{$item->roomCate->kategori}}
                                                         </td>
                                                         <td>
                                                             <a href="{{ route('edit.ruangan', $item->id_ruangan ) }}" class="btn btn-sm btn-primary btn-action" data-toggle="tooltip" title="Edit"><i class="fas fa-pencil-alt"></i></a>
@@ -151,7 +147,7 @@
                                                             <span class="required">Lokasi Lantai</span>
                                                         </label>
                                                         <!--end::Label-->
-                                                        <select class="form-select form-select-solid" name="lantai" required>
+                                                        <select class="form-select form-select-solid" data-control="select2" data-hide-search="true" name="lantai" required>
                                                             <option value="1">Lantai 1</option>
                                                             <option value="2">Lantai 2</option>
                                                             <option value="3">Lantai 3</option>
@@ -163,9 +159,10 @@
                                                         <label class="d-flex align-items-center fs-6 fw-bold form-label mb-2">
                                                             <span class="required">Kategori</span>
                                                         </label>
-                                                    <select class="form-select form-select-solid" name="kategori" required>
-                                                            <option value="1">Sekali</option>
-                                                            <option value="2">Lebih dari sekali</option>
+                                                        <select class="form-select form-select-solid" data-control="select2" data-hide-search="true" name="kategori" required>
+                                                            @foreach ($cateRooms as $item)
+                                                                <option value="{{ $item->id_ketegori }}">{{ $item->kategori }}</option>
+                                                            @endforeach
                                                         </select>
                                                     </div>
                                                     <!--end::Input group-->

@@ -38,7 +38,7 @@
                                 </div> -->
 								<div class="mb-10">
 									<label for="exampleFormControlInput1" class="required form-label">Lokasi Lantai</label>
-									<select class="form-select form-select-solid" name="lantai" required>
+									<select class="form-select form-select-solid" data-control="select2" data-hide-search="true" name="lantai" required>
 										<option value="1" {{$ruangan->lantai == 1 ? 'selected' : ''}}>Lantai 1</option>
 										<option value="2" {{$ruangan->lantai == 2 ? 'selected' : ''}}>Lantai 2</option>
 										<option value="3" {{$ruangan->lantai == 3 ? 'selected' : ''}}>Lantai 3</option>
@@ -47,9 +47,10 @@
 								</div>
 								<div class="mb-10">
 									<label for="exampleFormControlInput1" class="required form-label">Kategori</label>
-									<select class="form-select form-select-solid" name="kategori" required>
-										<option value="1" {{$ruangan->kategori == 1 ? 'selected' : ''}}>Sekali</option>
-										<option value="2" {{$ruangan->kategori == 2 ? 'selected' : ''}}>Lebih dari sekali</option>
+									<select class="form-select form-select-solid" data-control="select2" data-hide-search="true" name="kategori" required>
+                                        @foreach ($cateRooms as $item)
+                                            <option value="{{ $item->id_ketegori }}" {{$ruangan->kategori == $item->id_ketegori ? 'selected' : ''}}>{{ $item->kategori }}</option>
+                                        @endforeach
 									</select>
 								</div>
                                 <div class="d-flex justify-content-end">

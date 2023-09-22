@@ -28,5 +28,10 @@ class Ruangan extends Model
     {
         return $this->hasMany(RoomChecklist::class, 'id_ruangan', 'id_ruangan');
     }
+
+    public function roomCate()
+    {
+        return $this->belongsTo(RoomCategory::class, 'kategori', 'id_ketegori');
+    }
 }
 

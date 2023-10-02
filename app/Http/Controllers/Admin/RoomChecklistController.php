@@ -60,6 +60,14 @@ class RoomChecklistController extends Controller
             return redirect()->back()->withErrors($errors)->withInput();
         }
 
+        // Cek apakah sudah ada entri dengan id_ruangan yang sama
+        $ruanganId = $request->input('id_ruangan');
+        $existingChecklist = RoomChecklist::where('id_ruangan', $ruanganId)->first();
+
+        if ($existingChecklist) {
+            return redirect()->back()->with('insertFail', 'Data untuk ruangan ini sudah ada.');
+        }
+
         // Simpan data ke dalam basis data
         try {
             DB::beginTransaction();

@@ -210,7 +210,7 @@ class LaporanRegulerController extends Controller
                 $iteration++;
             }
             // Menambahkan "Validation" setelah selesai perulangan
-            if ($iteration > 0 && $iteration < 3) {
+            if ($iteration > 0 && $iteration <=3) {
                 $sheet->setCellValueByColumnAndRow($colIndex, $rowIndex, 'Controller');
             }
             $rowIndex++;
@@ -237,7 +237,7 @@ class LaporanRegulerController extends Controller
                     $iteration++;
                 }
                 // Menambahkan "Validation" setelah selesai perulangan
-                if ($iteration > 0 && $iteration < 3) {
+                if ($iteration > 0 && $iteration <= 3) {
                     $sheet->setCellValueByColumnAndRow($colIndex, $rowIndex, '✓');
                 }
                 $rowIndex++;
@@ -248,7 +248,7 @@ class LaporanRegulerController extends Controller
         }
 
         // Mengatur header untuk mengunduh file Excel
-        $fileName = 'laporan.xlsx';
+        $fileName = 'laporan_reguler.xlsx';
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
         header('Content-Disposition: attachment;filename="' . $fileName . '"');
         header('Cache-Control: max-age=0');

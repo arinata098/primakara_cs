@@ -240,7 +240,7 @@ class LaporanKelasController extends Controller
                 }
             }
             // Menambahkan "Validation" setelah selesai perulangan
-            if ($iteration > 0 && $iteration < 2) {
+            if ($iteration > 0 && $iteration <= 2) {
                 $sheet->setCellValueByColumnAndRow($colIndex, $rowIndex, 'Controller');
             }
             $rowIndex++;
@@ -251,42 +251,39 @@ class LaporanKelasController extends Controller
                 $colIndex = 2;
                 $iteration = 0;
 
-                dd($listData);
-
-                foreach ($listData as $data){
-                    foreach ($ruanganData['waktu'] as $tanggal) {
-                        foreach ($tanggal as $keyTime => $time) {
-                            if ($iteration === 2) {
-                                $sheet->setCellValueByColumnAndRow($colIndex, $rowIndex, '✓');
-                                $colIndex++;
-                                $iteration = 0;
-                            }
-
-                            if (isset($data[$keyTime])) {
-                                $sheet->setCellValueByColumnAndRow($colIndex, $rowIndex, '✓');
-                            } else {
-                                $sheet->setCellValueByColumnAndRow($colIndex, $rowIndex, '');
-                            }
+                foreach ($ruanganData['waktu'] as $tanggal => $waktu) {
+                    foreach ($waktu as $keyTime => $time) {
+                        if ($iteration === 2) {
+                            $sheet->setCellValueByColumnAndRow($colIndex, $rowIndex, '✓');
+                            $colIndex++;
+                            $iteration = 0;
                         }
+
+                        if (isset($listData[$tanggal][$keyTime])) {
+                            $sheet->setCellValueByColumnAndRow($colIndex, $rowIndex, '✓');
+                        } else {
+                            $sheet->setCellValueByColumnAndRow($colIndex, $rowIndex, '');
+                        }
+
+                        $iteration++;
+                        $colIndex++;
                     }
-                    $colIndex++;
-                    $iteration++;
                 }
 
-
                 // Menambahkan "Validation" setelah selesai perulangan
-                if ($iteration > 0 && $iteration < 2) {
+                if ($iteration > 0 && $iteration <= 2) {
                     $sheet->setCellValueByColumnAndRow($colIndex, $rowIndex, '✓');
                 }
                 $rowIndex++;
             }
 
-            // Spasi antara setiap ruangan
             $rowIndex++;
+
+            
         }
 
         // Mengatur header untuk mengunduh file Excel
-        $fileName = 'laporan.xlsx';
+        $fileName = 'laporan_kelas.xlsx';
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
         header('Content-Disposition: attachment;filename="' . $fileName . '"');
         header('Cache-Control: max-age=0');

@@ -213,7 +213,7 @@ class LaporanKebunController extends Controller
                 $iteration++;
             }
             // Menambahkan "Validation" setelah selesai perulangan
-            if ($iteration > 0 && $iteration < 7) {
+            if ($iteration > 0 && $iteration <= 7) {
                 $sheet->setCellValueByColumnAndRow($colIndex, $rowIndex, 'Controller');
             }
             $rowIndex++;
@@ -240,7 +240,7 @@ class LaporanKebunController extends Controller
                     $iteration++;
                 }
                 // Menambahkan "Validation" setelah selesai perulangan
-                if ($iteration > 0 && $iteration < 7) {
+                if ($iteration > 0 && $iteration <= 7) {
                     $sheet->setCellValueByColumnAndRow($colIndex, $rowIndex, '✓');
                 }
                 $rowIndex++;
@@ -251,7 +251,7 @@ class LaporanKebunController extends Controller
         }
 
         // Mengatur header untuk mengunduh file Excel
-        $fileName = 'laporan.xlsx';
+        $fileName = 'laporan_kebun.xlsx';
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
         header('Content-Disposition: attachment;filename="' . $fileName . '"');
         header('Cache-Control: max-age=0');

@@ -125,6 +125,7 @@ class LaporanToiletController extends Controller
         $results = Validasi::select(
             'validasi_data.id_atribut_checklist',
             'validasi_data.tgl_check',
+            'validasi_data.jam',
             'validasi_data.id_cs',
             'data_atribut_checklist.id_ruangan',
             'ruangan.nama_ruangan',
@@ -226,18 +227,20 @@ class LaporanToiletController extends Controller
             $iteration = 0;
 
             foreach ($ruanganData['waktu'] as $tanggal) {
-                if ($iteration === 4) {
-                    $sheet->setCellValueByColumnAndRow($colIndex, $rowIndex, 'Controller');
-                    $colIndex++;
-                    $iteration = 0;
-                }
+                foreach ($tanggal as $time) {
+                    if ($iteration === 4) {
+                        $sheet->setCellValueByColumnAndRow($colIndex, $rowIndex, 'Controller');
+                        $colIndex++;
+                        $iteration = 0;
+                    }
 
-                $sheet->setCellValueByColumnAndRow($colIndex, $rowIndex, $tanggal);
-                $colIndex++;
-                $iteration++;
+                    $sheet->setCellValueByColumnAndRow($colIndex, $rowIndex, $time);
+                    $colIndex++;
+                    $iteration++;
+                }
             }
             // Menambahkan "Validation" setelah selesai perulangan
-            if ($iteration > 0 && $iteration < 4) {
+            if ($iteration > 0 && $iteration <= 4) {
                 $sheet->setCellValueByColumnAndRow($colIndex, $rowIndex, 'Controller');
             }
             $rowIndex++;
@@ -248,34 +251,39 @@ class LaporanToiletController extends Controller
                 $colIndex = 2;
                 $iteration = 0;
 
-                foreach ($ruanganData['tanggal'] as $tanggal) {
-                    if ($iteration === 4) {
-                        $sheet->setCellValueByColumnAndRow($colIndex, $rowIndex, '✓');
-                        $colIndex++;
-                        $iteration = 0;
-                    }
+                foreach ($ruanganData['waktu'] as $tanggal => $waktu) {
+                    foreach ($waktu as $keyTime => $time) {
+                        if ($iteration === 4) {
+                            $sheet->setCellValueByColumnAndRow($colIndex, $rowIndex, '✓');
+                            $colIndex++;
+                            $iteration = 0;
+                        }
 
-                    if (isset($listData[$tanggal])) {
-                        $sheet->setCellValueByColumnAndRow($colIndex, $rowIndex, '✓');
-                    } else {
-                        $sheet->setCellValueByColumnAndRow($colIndex, $rowIndex, '');
+                        if (isset($listData[$tanggal][$keyTime])) {
+                            $sheet->setCellValueByColumnAndRow($colIndex, $rowIndex, '✓');
+                        } else {
+                            $sheet->setCellValueByColumnAndRow($colIndex, $rowIndex, '');
+                        }
+
+                        $iteration++;
+                        $colIndex++;
                     }
-                    $colIndex++;
-                    $iteration++;
                 }
+
                 // Menambahkan "Validation" setelah selesai perulangan
-                if ($iteration > 0 && $iteration < 4) {
+                if ($iteration > 0 && $iteration <= 4) {
                     $sheet->setCellValueByColumnAndRow($colIndex, $rowIndex, '✓');
                 }
                 $rowIndex++;
             }
 
-            // Spasi antara setiap ruangan
             $rowIndex++;
+
+            
         }
 
         // Mengatur header untuk mengunduh file Excel
-        $fileName = 'laporan.xlsx';
+        $fileName = 'laporan_toilet.xlsx';
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
         header('Content-Disposition: attachment;filename="' . $fileName . '"');
         header('Cache-Control: max-age=0');

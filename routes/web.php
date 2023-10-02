@@ -10,7 +10,10 @@ use App\Http\Controllers\Admin\RuanganController;
 use App\Http\Controllers\Admin\RoomChecklistController;
 use App\Http\Controllers\Admin\AkunController;
 use App\Http\Controllers\Admin\SummaryController;
-use App\Http\Controllers\Admin\LaporanController;
+use App\Http\Controllers\Admin\LaporanRegulerController;
+use App\Http\Controllers\Admin\LaporanKebunController;
+use App\Http\Controllers\Admin\LaporanKelasController;
+use App\Http\Controllers\Admin\LaporanToiletController;
 // User
 use App\Http\Controllers\User\UserController;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
@@ -77,9 +80,15 @@ Route::middleware(['admin'])->group(function () {
     Route::get('/validasiData/{id_atribut_checklist}', [SummaryController::class, 'validasi_data'])->middleware('auth')->name('validasiData');
 
     // Laporan
-    Route::get('/laporan', [LaporanController::class, 'laporan'])->middleware('auth')->name('laporan');
-    Route::get('/exportToExcel', [LaporanController::class, 'exportToExcel'])->middleware('auth')->name('exportToExcel');
-    
+    Route::get('/laporanReg', [LaporanRegulerController::class, 'laporanReg'])->middleware('auth')->name('laporanReg');
+    Route::get('/exportToExcelReg', [LaporanRegulerController::class, 'exportToExcelReg'])->middleware('auth')->name('exportToExcelReg');
+    Route::get('/laporanKebun', [LaporanKebunController::class, 'laporanKebun'])->middleware('auth')->name('laporanKebun');
+    Route::get('/exportToExcelKebun', [LaporanKebunController::class, 'exportToExcelKebun'])->middleware('auth')->name('exportToExcelKebun');
+    Route::get('/laporanKelas', [LaporanKelasController::class, 'laporanKelas'])->middleware('auth')->name('laporanKelas');
+    Route::get('/exportToExcelKelas', [LaporanKelasController::class, 'exportToExcelKelas'])->middleware('auth')->name('exportToExcelKelas');
+    Route::get('/laporanToilet', [LaporanToiletController::class, 'laporanToilet'])->middleware('auth')->name('laporanToilet');
+    Route::get('/exportToExcelToilet', [LaporanToiletController::class, 'exportToExcelToilet'])->middleware('auth')->name('exportToExcelToilet');
+
 
 });
 

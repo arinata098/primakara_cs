@@ -14,9 +14,9 @@ use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use PhpOffice\PhpSpreadsheet\Writer\Csv;
 
 
-class LaporanController extends Controller
+class LaporanRegulerController extends Controller
 {
-    public function laporan(Request $request)
+    public function laporanReg(Request $request)
     {
         // Mengambil tanggal awal dan tanggal akhir dari request jika tersedia
         $tanggalAwal = $request->filled('tanggal_awal') ? $request->input('tanggal_awal') : null;
@@ -50,6 +50,8 @@ class LaporanController extends Controller
                     // Tambahkan kondisi untuk memfilter berdasarkan rentang tanggal
                     $query->whereBetween('validasi_data.tgl_check', [$tanggalAwal, $tanggalAkhir]);
                 })
+                // hardcode kategori ruangan
+                ->where('ruangan.kategori', 1)
                 ->orderBy('data_atribut_checklist.id_ruangan')
                 ->orderBy('validasi_data.tgl_check')
                 ->orderBy('data_atribut_checklist.id_list')
@@ -89,16 +91,16 @@ class LaporanController extends Controller
 
         }
 
-        return view('admin.laporan.index', [
-            'title' => 'Laporan',
-            'section' => 'Aktivitas',
-            'active' => 'Laporan',
+        return view('admin.laporan.reguler', [
+            'title' => 'Reguler',
+            'section' => 'Laporan',
+            'active' => 'Reguler',
             'export' => $groupedData,
             'filterUsed' => $filterUsed, // Mengirimkan status penggunaan filter ke tampilan
         ]);
     }
 
-    public function prepareDataForExport(Request $request)
+    public function prepareDataForExportReg(Request $request)
     {
         // Mengambil tanggal awal dan tanggal akhir dari request jika tersedia
         $tanggalAwal = $request->filled('tanggal_awal') ? $request->input('tanggal_awal') : null;
@@ -122,6 +124,8 @@ class LaporanController extends Controller
                 // Tambahkan kondisi untuk memfilter berdasarkan rentang tanggal
                 $query->whereBetween('validasi_data.tgl_check', [$tanggalAwal, $tanggalAkhir]);
             })
+            // hardcode kategori ruangan
+            ->where('ruangan.kategori', 1)
             ->orderBy('data_atribut_checklist.id_ruangan')
             ->orderBy('validasi_data.tgl_check')
             ->orderBy('data_atribut_checklist.id_list')
@@ -167,14 +171,14 @@ class LaporanController extends Controller
         return collect($groupedData);
     }
 
-    public function exportToExcel(Request $request)
+    public function exportToExcelReg(Request $request)
     {
         // Mendapatkan tanggal_awal dan tanggal_akhir dari query string
         $tanggalAwal = $request->input('tanggal_awal');
         $tanggalAkhir = $request->input('tanggal_akhir');
 
         // Menggunakan tanggal_awal dan tanggal_akhir untuk memfilter data
-        $exportData = $this->prepareDataForExport($request, $tanggalAwal, $tanggalAkhir);
+        $exportData = $this->prepareDataForExportReg($request, $tanggalAwal, $tanggalAkhir);
 
         // Membuat objek Spreadsheet
         $spreadsheet = new Spreadsheet();

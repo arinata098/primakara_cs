@@ -86,7 +86,7 @@
                                                             </div>
                                                             <!--end::Input group-->
 
-                                                            @if ($room->roomInRCL->kategori == 2)
+                                                            @if ($room->roomInRCL->kategori == 3 || $room->roomInRCL->kategori == 4)
                                                             <!--begin::Input group-->
                                                             <div class="d-flex flex-column mb-7 fv-row">
                                                                 <!--begin::Label-->

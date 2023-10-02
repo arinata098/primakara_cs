@@ -18,11 +18,11 @@
                                             <!--begin::Title-->
                                             <div class="d-inline">
                                                 <button class="btn btn-secondary" onclick="history.back()">Back</button>
-                                                <a href="{{ route('exportToExcel') }}?tanggal_awal={{ request()->input('tanggal_awal') }}&tanggal_akhir={{ request()->input('tanggal_akhir') }}" class="btn btn-success fs-6">Export to Excel</a>
+                                                <a href="{{ route('exportToExcelKebun') }}?tanggal_awal={{ request()->input('tanggal_awal') }}&tanggal_akhir={{ request()->input('tanggal_akhir') }}" class="btn btn-success fs-6">Export to Excel</a>
                                             </div>
                                             <!--end::Title-->
                                             <!--begin::Filter Form-->
-                                            <form method="get" action="{{ route('laporan') }}" class="d-flex align-items-center">
+                                            <form method="get" action="{{ route('laporanKebun') }}" class="d-flex align-items-center">
                                                 <div class="me-2">
                                                     <label for="tanggal_awal" class="form-label">Tanggal Awal:</label>
                                                     <input type="date" name="tanggal_awal" id="tanggal_awal" class="form-control" value="{{ request('tanggal_awal') }}">

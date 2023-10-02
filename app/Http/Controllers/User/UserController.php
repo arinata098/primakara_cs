@@ -106,7 +106,7 @@ class UserController extends Controller
             return redirect()->back()->withErrors($errors)->withInput();
         }
 
-        if ($request->kategoriRuang == 1 ) {
+        if ($request->kategoriRuang == 1 || $request->kategoriRuang == 2) {
             // Periksa apakah ada data dengan id_ruangan yang sama pada tgl_check yang sama
             $existingData = AtributChecklist::with('validations')
             ->where('id_ruangan', $request->id_ruangan)
@@ -119,7 +119,9 @@ class UserController extends Controller
             if ($existingData) {
             return redirect()->back()->with('insertFail', 'Ruangan ini telah dibersihkan untuk hari ini.');
             }
-        } elseif ($request->kategoriRuang == 2) {
+        }
+        // toilet
+        elseif ($request->kategoriRuang == 4) {
             // Periksa apakah ada data dengan id_ruangan yang sama pada tgl_check yang sama
             $existingData = AtributChecklist::with('validations')
             ->where('id_ruangan', $request->id_ruangan)
@@ -132,6 +134,23 @@ class UserController extends Controller
             $totalsData = count($existingData);
 
             if ($totalsData >= 4) {
+                return redirect()->back()->with('insertFail', 'Ruangan ini telah dibersihkan untuk hari ini.');
+            }
+        }
+        // kelas / fo
+        elseif ($request->kategoriRuang == 3) {
+            // Periksa apakah ada data dengan id_ruangan yang sama pada tgl_check yang sama
+            $existingData = AtributChecklist::with('validations')
+            ->where('id_ruangan', $request->id_ruangan)
+            ->whereHas('validations', function ($query) use ($request) {
+                $query->whereDate('tgl_check', '=', $request->tgl_check);
+            })
+            ->groupBy('id_atribut')
+            ->get();
+
+            $totalsData = count($existingData);
+
+            if ($totalsData >= 2) {
                 return redirect()->back()->with('insertFail', 'Ruangan ini telah dibersihkan untuk hari ini.');
             }
         }

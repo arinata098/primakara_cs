@@ -39,7 +39,7 @@
                                         <!--begin::Table-->
                                         @if ($filterUsed)
                                         <div class="table-responsive my-10 mx-8">
-                                            <table class="table table-striped gy-7 gs-7">
+                                            <table class="table table-striped gy-7 gs-7" style="overflow-x: auto;">
                                                 <thead>
                                                     <tr class="fw-bold fs-6 text-gray-800 border-bottom-2 border-gray-200">
                                                         <th class="min-w-100px">Nama Ruangan</th>

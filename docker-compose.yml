@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  laravel-prim-cs:
+    build: .
+    container_name: laravel-prim-cs
+    ports:
+      - "8000:80"  # http://localhost:8000
+    environment:
+      - APP_ENV=local
+      - APP_DEBUG=true
+    volumes:
+      - .:/var/www/html
+    networks:
+      - laravel-net
+
+networks:
+  laravel-net:
+    driver: bridge
